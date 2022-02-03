@@ -9,10 +9,10 @@ on:
 
 jobs:
     build:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-20.04
         strategy:
             matrix:
-                python-version: [3.9] # because libboost-python1.74-dev only supports 3.9!
+                python-version: [3.8] # because libboost-python1.74-dev only supports 3.8!
         name: Python ${{ matrix.python-version }}
         steps:
             - uses: actions/checkout@v2

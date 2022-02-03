@@ -79,8 +79,7 @@ In Debian, it suffices to do "aptitude install libboost-python-dev".
 The distribution is preconfigured for this case. You may skip to step
 2.
 
-For other distributions, check [this
-howto](http://wiki.tiker.net/BoostInstallationHowto).
+For other distributions, check [this howto](http://wiki.tiker.net/BoostInstallationHowto).
 
 Step 2: Installing TagLib
 -------------------------
@@ -96,10 +95,6 @@ For details, you may consult the file `INSTALL' in the TagLib distribution.
 
 Step 3: Installing TagPy
 ------------------------
-
-If necessary, edit the file `setup.py', namely the section labelled
-"USER CUSTOMIZABLE SECTION" to make sure the compiler will find your
-installations of Boost and TagLib.
 
 Then, run 
 

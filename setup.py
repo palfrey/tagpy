@@ -21,33 +21,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
-def get_config_schema():
-    from aksetup_helper import ConfigSchema, \
-            IncludeDir, LibraryDir, Libraries, BoostLibraries, \
-            Switch, StringListOption, make_boost_base_options
-
-    return ConfigSchema(make_boost_base_options() + [
-        BoostLibraries("python"),
-
-        IncludeDir("TAGLIB", []),
-        LibraryDir("TAGLIB", []),
-        Libraries("TAGLIB", ["tag"]),
-
-        StringListOption("CXXFLAGS", [],
-            help="Any extra C++ compiler options to include"),
-        ])
+from setuptools import setup
+from distutils.core import Extension
 
 
 def main():
-    from aksetup_helper import hack_distutils, get_config, setup, Extension
 
-    hack_distutils()
-    conf = get_config(get_config_schema())
-
-    INCLUDE_DIRS = conf["TAGLIB_INC_DIR"] + conf["BOOST_INC_DIR"]
-    LIBRARY_DIRS = conf["TAGLIB_LIB_DIR"] + conf["BOOST_LIB_DIR"]
-    LIBRARIES = conf["TAGLIB_LIBNAME"] + conf["BOOST_PYTHON_LIBNAME"]
+    INCLUDE_DIRS = "" # conf["TAGLIB_INC_DIR"] + conf["BOOST_INC_DIR"]
+    LIBRARY_DIRS = "" # conf["TAGLIB_LIB_DIR"] + conf["BOOST_LIB_DIR"]
+    LIBRARIES = "" # conf["TAGLIB_LIBNAME"] + conf["BOOST_PYTHON_LIBNAME"]
 
     setup(name="tagpy",
           version="2018.1.1",
@@ -85,7 +67,7 @@ def main():
                   include_dirs=INCLUDE_DIRS,
                   library_dirs=LIBRARY_DIRS,
                   libraries=LIBRARIES,
-                  extra_compile_args=conf["CXXFLAGS"],
+                  extra_compile_args="", # conf["CXXFLAGS"],
                   ),
                         ]
           )

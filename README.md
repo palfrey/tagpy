@@ -1,11 +1,8 @@
 TagPy
 =====
 
-TagPy is a a set of Python bindings for Scott Wheeler's TagLib
-[1](http://developer.kde.org/~wheeler/taglib.html). It builds upon Boost.Python
-[2](http://www.boost.org/libs/python/doc/), a wrapper generation library which
-is part of the Boost set of C++ libraries [3](http://www.boost.org). It has its
-own web site [4](http://mathema.tician.de/software/tagpy).
+TagPy is a a set of Python bindings for [Scott Wheeler's TagLib](http://developer.kde.org/~wheeler/taglib.html). It builds upon [Boost.Python](http://www.boost.org/libs/python/doc/), a wrapper generation library which
+is part of the [Boost set of C++ libraries](http://www.boost.org).
 
 Just like TagLib, TagPy can:
 
@@ -19,19 +16,16 @@ reading and writing mechanism is also supported.
 
 You can find examples in the test/ directory.
 
-Andreas Kloeckner <inform@tiker.net>
-
 Acknowledgments
 ===============
 
+- Andreas Kloeckner <inform@tiker.net> wrote [the original system](https://github.com/inducer/tagpy)
 - Andreas Hemel <debian-bugs@daishan.de> sent a patch for a crash bug.
 - Michal Čihař <nijel@debian.org> maintains the Debian package.
-- Christoph Burgmer wrote the initial version of the new Python-only
-  FileRef.
+- Christoph Burgmer wrote the initial version of the new Python-only FileRef.
 - Lars Wendler forwarded a patch from a Gentoo user.
-- [hobophobe on github](https://github.com/hobophobe/tagpy) ported
-  TagPy to Python 3.
-- Keith Packard wrote a UCS4 to UTF8 routine that I shamelessly stole.
+- [Adam Dane](https://github.com/hobophobe) ported TagPy to Python 3.
+- Keith Packard wrote a UCS4 to UTF8 routine that we shamelessly stole.
 
   Here's his copyright:
 

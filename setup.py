@@ -21,6 +21,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import sys
 from setuptools import setup
 from distutils.core import Extension
 
@@ -29,7 +30,7 @@ def main():
 
     INCLUDE_DIRS = ""  # conf["TAGLIB_INC_DIR"] + conf["BOOST_INC_DIR"]
     LIBRARY_DIRS = ""  # conf["TAGLIB_LIB_DIR"] + conf["BOOST_LIB_DIR"]
-    LIBRARIES = ""  # conf["TAGLIB_LIBNAME"] + conf["BOOST_PYTHON_LIBNAME"]
+    LIBRARIES = ["boost_python%d%d" % sys.version_info[:2], "tag"]
 
     setup(
         name="tagpy",

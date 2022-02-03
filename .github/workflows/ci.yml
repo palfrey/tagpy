@@ -1,25 +1,26 @@
+---
 name: CI
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+    push:
+        branches:
+            - main
+    pull_request:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [ '2.x', '3.x' ]
-    name: Python ${{ matrix.python-version }} sample
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - run: python setup.py build
-      - run: pip install pytest==6.2.5 pre-commit==2.17.0
-      - run: pre-commit run -a
-      - run: pytest -vvv -s
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                python-version: [2.x, 3.x]
+        name: Python ${{ matrix.python-version }} sample
+        steps:
+            - uses: actions/checkout@v2
+            - name: Set up Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: ${{ matrix.python-version }}
+            - run: python setup.py build
+            - run: pip install pytest==6.2.5 pre-commit==2.17.0
+            - run: pre-commit run -a
+            - run: pytest -vvv -s

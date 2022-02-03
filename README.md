@@ -12,7 +12,7 @@ Just like TagLib, TagPy can:
 - access APE tags in Musepack and MP3 files.
 
 All these have their own specific interfaces, but TagLib's generic tag
-reading and writing mechanism is also supported. 
+reading and writing mechanism is also supported.
 
 You can find examples in the test/ directory.
 
@@ -62,7 +62,7 @@ TagPy works for me with
 - Boost.Python 1.33
 - gcc 4.0
 
-I have reason to believe that slightly older versions of gcc and 
+I have reason to believe that slightly older versions of gcc and
 Boost.Python should be fine, but the 1.4 requirement for TagLib is
 firm. Anything newer is also ok.
 
@@ -90,7 +90,7 @@ For details, you may consult the file `INSTALL' in the TagLib distribution.
 Step 3: Installing TagPy
 ------------------------
 
-Then, run 
+Then, run
 
     python setup.py build
 
@@ -101,7 +101,7 @@ Finally, typing
 
     su -c "python setup.py install"
 
-will complete the installation. 
+will complete the installation.
 
 Congratulations! You are now ready to use TagPy.
 
@@ -115,7 +115,7 @@ Using TagPy is as simple as this:
     >>> f.tag().artist
     u'Andreas'
 
-The `test/` directory contains a few more examples. 
+The `test/` directory contains a few more examples.
 
 In general, TagPy duplicates the TagLib API, with a few notable
 exceptions:
@@ -126,7 +126,7 @@ exceptions:
 - Enumerations form their own scope and are not part of any
   enclosing class scope, if any.
 
-  For example, the value `TagLib::String::UTF16BE` from the 
+  For example, the value `TagLib::String::UTF16BE` from the
   enum `TagLib::String::Type` is now `tagpy.StringType.UTF16BE`.
 
 - `TagLib::String` objects are mapped to and expected as Python

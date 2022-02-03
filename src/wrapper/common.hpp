@@ -6,7 +6,7 @@
 // rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
 // sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
 //
@@ -59,7 +59,7 @@ using namespace std;
 #warning !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #warning TagPy is meant to wrap TagLib 1.4 and above.
 #warning !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#endif 
+#endif
 
 
 
@@ -101,7 +101,7 @@ namespace {
   object Map_keys(Map<Key, Value> &m)
   {
     boost::python::list keys;
-    
+
     typedef Map<Key, Value> map;
     typename map::Iterator first = m.begin(), last = m.end();
     while (first != last)
@@ -221,5 +221,3 @@ namespace {
       ;
   }
 }
-
-

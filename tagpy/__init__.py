@@ -19,29 +19,28 @@
 # SOFTWARE.
 
 
-import _tagpy
-from _tagpy import Tag, File, AudioProperties, StringType, ReadStyle
-#AudioProperties.ReadStyle = _tagpy.ReadStyle
+from _tagpy import File, ReadStyle
 
 
 class FileTypeResolver(object):
-    def createFile(self, fileName, readAudioProperties=True,
-            audioPropertiesStyle=ReadStyle.Average):
+    def createFile(
+        self, fileName, readAudioProperties=True, audioPropertiesStyle=ReadStyle.Average
+    ):
         raise NotImplementedError
 
 
 class FileRef(object):
     fileTypeResolvers = []
 
-    def __init__(self, f, readAudioProperties=True,
-            audioPropertiesStyle=ReadStyle.Average):
+    def __init__(
+        self, f, readAudioProperties=True, audioPropertiesStyle=ReadStyle.Average
+    ):
         if isinstance(f, FileRef):
             self._file = f._file
         elif isinstance(f, File):
             self._file = f
         else:
-            self._file = FileRef.create(f, readAudioProperties,
-                audioPropertiesStyle)
+            self._file = FileRef.create(f, readAudioProperties, audioPropertiesStyle)
 
     def tag(self):
         return self._file.tag()
@@ -75,33 +74,37 @@ class FileRef(object):
         import tagpy.flac
         import tagpy.mpc
 
-        #import tagpy.wavpack, tagpy.ogg.speex, tagpy.trueaudio
+        # import tagpy.wavpack, tagpy.ogg.speex, tagpy.trueaudio
 
         return {
-                "ogg": tagpy.ogg.vorbis,
-                "mp3": tagpy.mpeg,
-                "oga": tagpy.ogg.flac,
-                "flac": tagpy.flac,
-                "mpc": tagpy.mpc,
-                #".wv": tagpy.wavpack,
-                #".spx": tagpy.ogg.speex,
-                #".tta": tagpy.trueaudio,
-                }
+            "ogg": tagpy.ogg.vorbis,
+            "mp3": tagpy.mpeg,
+            "oga": tagpy.ogg.flac,
+            "flac": tagpy.flac,
+            "mpc": tagpy.mpc,
+            # ".wv": tagpy.wavpack,
+            # ".spx": tagpy.ogg.speex,
+            # ".tta": tagpy.trueaudio,
+        }
 
     @classmethod
-    def create(cls, fileName, readAudioProperties=True,
-            audioPropertiesStyle=ReadStyle.Average):
+    def create(
+        cls, fileName, readAudioProperties=True, audioPropertiesStyle=ReadStyle.Average
+    ):
         for resolver in cls.fileTypeResolvers:
-            file = resolver.createFile(fileName, readAudioProperties,
-                audioPropertiesStyle)
+            file = resolver.createFile(
+                fileName, readAudioProperties, audioPropertiesStyle
+            )
             if file:
                 return file
 
         from os.path import exists
+
         if not exists(fileName):
             raise IOError("File does not exist")
 
         from os.path import splitext
+
         ext = splitext(fileName)[1][1:].lower()
 
         try:

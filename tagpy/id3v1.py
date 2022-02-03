@@ -6,7 +6,7 @@
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
 
@@ -19,11 +19,7 @@
 # SOFTWARE.
 
 
-
-
 import _tagpy
-
-
 
 
 def _genreList():
@@ -36,10 +32,20 @@ def _genreList():
         next = _tagpy.id3v1_genre(i)
     return result
 
+
 _GenreList = _genreList()
 _GenreMap = dict([(v, k) for k, v in enumerate(_GenreList)])
 
 genre = _tagpy.id3v1_genre
-def genreIndex(genre): return _GenreMap[genre]
-def genreList(): return _GenreList
-def genreMap(): return _GenreMap
+
+
+def genreIndex(genre):
+    return _GenreMap[genre]
+
+
+def genreList():
+    return _GenreList
+
+
+def genreMap():
+    return _GenreMap

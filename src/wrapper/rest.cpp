@@ -6,7 +6,7 @@
 // rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
 // sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
 //
@@ -191,15 +191,15 @@ void exposeRest()
     class_<cl, boost::noncopyable, bases<File> >("flac_File",
                                    init<const char *, optional<bool, AudioProperties::ReadStyle> >())
       .def(init<const char *, ID3v2::FrameFactory *, optional<bool, AudioProperties::ReadStyle> >())
-      .def("ID3v1Tag", 
+      .def("ID3v1Tag",
            (ID3v1::Tag *(FLAC::File::*)(bool))
            &FLAC::File::ID3v1Tag,
            ID3v1Tag_overloads()[return_internal_reference<>()])
-      .def("ID3v2Tag", 
+      .def("ID3v2Tag",
            (ID3v2::Tag *(FLAC::File::*)(bool))
            &FLAC::File::ID3v2Tag,
            ID3v2Tag_overloads()[return_internal_reference<>()])
-      .def("xiphComment", 
+      .def("xiphComment",
            (Ogg::XiphComment *(FLAC::File::*)(bool))
            &FLAC::File::xiphComment,
            xiphComment_overloads()[return_internal_reference<>()])
@@ -224,15 +224,15 @@ void exposeRest()
     typedef MPC::File cl;
     class_<MPC::File, bases<File>, boost::noncopyable>
       ("mpc_File", init<const char *, optional<bool, AudioProperties::ReadStyle> >())
-      .def("ID3v1Tag", 
+      .def("ID3v1Tag",
            (ID3v1::Tag *(cl::*)(bool))
            &cl::ID3v1Tag,
            ID3v1Tag_overloads()[return_internal_reference<>()])
-      .def("APETag", 
+      .def("APETag",
            (APE::Tag *(cl::*)(bool))
            &cl::APETag,
            APETag_overloads()[return_internal_reference<>()])
-      .def("remove", 
+      .def("remove",
            (void (cl::*)(int))
            &cl::remove,
            remove_overloads())

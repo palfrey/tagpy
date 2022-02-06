@@ -1,0 +1,9 @@
+FROM fedora:35
+RUN dnf update
+RUN dnf install python3-pip
+RUN pip install wheel pytest
+RUN python
+COPY . /work
+RUN python setup.py bdist_wheel
+RUN pip install dist/*
+RUN pytest -vvv -s

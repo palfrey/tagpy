@@ -1,9 +1,8 @@
 FROM fedora:35
-RUN dnf update
-RUN dnf install python3-pip
+WORKDIR /work
+RUN dnf install -y python3-pip gcc gcc-c++ taglib-devel boost-python3-devel python3-devel
 RUN pip install wheel pytest
-RUN python
 COPY . /work
-RUN python setup.py bdist_wheel
+RUN python3 setup.py bdist_wheel
 RUN pip install dist/*
 RUN pytest -vvv -s

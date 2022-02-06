@@ -21,6 +21,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from ctypes.util import find_library
 import sys
 from setuptools import setup
 from distutils.core import Extension
@@ -30,7 +31,20 @@ def main():
 
     INCLUDE_DIRS = ""  # conf["TAGLIB_INC_DIR"] + conf["BOOST_INC_DIR"]
     LIBRARY_DIRS = ""  # conf["TAGLIB_LIB_DIR"] + conf["BOOST_LIB_DIR"]
-    LIBRARIES = ["boost_python%d%d" % sys.version_info[:2], "tag"]
+
+    boost_name = None
+
+    for boost_option in [
+        "boost_python%d%d" % sys.version_info[:2],
+        "boost_python-py%d%d" % sys.version_info[:2],
+    ]:
+        if find_library(boost_option) is not None:
+            boost_name = boost_option
+            break
+
+    assert boost_name is not None
+
+    LIBRARIES = [boost_name, "tag"]
 
     setup(
         name="tagpy",

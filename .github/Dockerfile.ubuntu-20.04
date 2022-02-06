@@ -1,9 +1,7 @@
 FROM ubuntu:20.04
 WORKDIR /work
 RUN apt-get update
-RUN apt-get install -y --no-install-recommends libtag1-dev libboost-python-dev
-RUN apt-get install -y python3-pip
-RUN apt-get install -y python-is-python3
+RUN apt-get install -y --no-install-recommends libtag1-dev libboost-python-dev python3-pip python-is-python3
 RUN pip install wheel pytest
 COPY . /work
 RUN python setup.py bdist_wheel

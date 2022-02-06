@@ -13,7 +13,7 @@ jobs:
         strategy:
             matrix:
                 os: [fedora-35, ubuntu-20.04]
-        name: Build {{ matrix.os }}
+        name: Build ${{ matrix.os }}
         steps:
             - uses: actions/checkout@v2
             - name: Set up Docker Buildx
@@ -28,12 +28,12 @@ jobs:
                   restore-keys: |
                       ${{ matrix.os }}-buildx
 
-            - name: Build {{ matrix.os }}
+            - name: Build ${{ matrix.os }}
               uses: docker/build-push-action@v2
               with:
                   context: .
                   builder: ${{ steps.buildx.outputs.name }}
-                  file: .github/Dockerfile.{{ matrix.os }}
+                  file: .github/Dockerfile.${{ matrix.os }}
                   push: false
                   tags: ${{ steps.prep.outputs.tagged_image }}
                   cache-from: type=local,src=/tmp/.buildx-cache

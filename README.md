@@ -59,8 +59,8 @@ Step 0: Verifying that you have the right dependencies
 TagPy works for me with
 
 - TagLib 1.4
-- Boost.Python 1.33
-- gcc 4.0
+- Boost.Python 1.74
+- gcc 10.2.1
 
 I have reason to believe that slightly older versions of gcc and
 Boost.Python should be fine, but the 1.4 requirement for TagLib is
@@ -70,22 +70,15 @@ Step 1: Installing Boost.Python
 -------------------------------
 
 In Debian, it suffices to do "aptitude install libboost-python-dev".
-The distribution is preconfigured for this case. You may skip to step
-2.
-
-For other distributions, check [this howto](http://wiki.tiker.net/BoostInstallationHowto).
+In Fedora, "dnf install boost-python3-devel" works.
+Other setups are not currently supported, but patches with CI checking for others are welcomed.
 
 Step 2: Installing TagLib
 -------------------------
 
-In Debian, it suffices to do "aptitude install libtag1-dev".  The distribution
-is preconfigured for this case. You may skip to step 3.
-
-Install TagLib from its homepage, using the usual
-
-    configure; make; make install
-
-For details, you may consult the file `INSTALL' in the TagLib distribution.
+In Debian, it suffices to do "aptitude install libtag1-dev".
+In Fedora, "dnf install taglib-devel" works.
+Other setups are not currently supported, but patches with CI checking for others are welcomed.
 
 Step 3: Installing TagPy
 ------------------------

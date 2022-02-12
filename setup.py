@@ -34,15 +34,17 @@ def main():
 
     boost_name = None
 
-    for boost_option in [
+    boost_options = [
         "boost_python%d%d" % sys.version_info[:2],
         "boost_python-py%d%d" % sys.version_info[:2],
-    ]:
+    ]
+
+    for boost_option in boost_options:
         if find_library(boost_option) is not None:
             boost_name = boost_option
             break
 
-    assert boost_name is not None
+    assert boost_name is not None, "Can't find boost-python. Tried %s" % boost_option
 
     LIBRARIES = [boost_name, "tag"]
 

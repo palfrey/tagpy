@@ -44,7 +44,7 @@ def main():
             boost_name = boost_option
             break
 
-    assert boost_name is not None, "Can't find boost-python. Tried %s" % boost_option
+    assert boost_name is not None, "Can't find boost-python. Tried %s" % boost_options
 
     LIBRARIES = [boost_name, "tag"]
 

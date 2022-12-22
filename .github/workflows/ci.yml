@@ -9,10 +9,17 @@ on:
 
 jobs:
     test:
-        runs-on: ubuntu-22.04
         strategy:
             matrix:
-                python-version: ['3.10']
+                include:
+                    - ubuntu-version: 18.04
+                      python-version: 3.6
+                    - ubuntu-version: 20.04
+                      python-version: 3.8
+                    - ubuntu-version: 22.04
+                      python-version: 3.10
+
+        runs-on: ubuntu-${{ matrix.ubuntu-version }}
 
         steps:
             - uses: actions/checkout@v3

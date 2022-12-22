@@ -5,7 +5,7 @@ import tagpy.mpeg
 
 def test_framedumper():
     f = tagpy.FileRef(str(pathlib.Path(__file__).parent.joinpath("la.mp3")))
-    t = f.ID3v2Tag()
+    t = f._file.ID3v2Tag()
 
     for frame_type in list(t.frameListMap().keys()):
         print(frame_type)

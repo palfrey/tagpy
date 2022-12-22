@@ -17,7 +17,7 @@ jobs:
                     - ubuntu-version: 20.04
                       python-version: 3.8
                     - ubuntu-version: 22.04
-                      python-version: 3.10
+                      python-version: '3.10'
 
         runs-on: ubuntu-${{ matrix.ubuntu-version }}
 

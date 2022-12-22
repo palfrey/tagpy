@@ -24,6 +24,7 @@ jobs:
               run: |
                   python -m pip install --upgrade pip
                   pip install -r requirements.txt
+                  apt-get install -y --no-install-recommends libtag1-dev libboost-python-dev
                   pip install -e .
             - name: Test with pytest
               run: pytest -vvv --cov=tagpy --cov-report=term-missing --cov-report=lcov

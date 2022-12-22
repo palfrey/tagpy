@@ -2,6 +2,7 @@
 # -*- coding: latin-1 -*-
 
 # Copyright (c) 2006-2008 Andreas Kloeckner, Christoph Burgmer
+# Copyright (c) 2022 Tom Parker-Shemilt
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -52,9 +53,10 @@ def main():
         name="tagpy",
         version="2018.1.1",
         description="Python Bindings for TagLib",
-        long_description=open("README.rst", "rt").read(),
-        author="Andreas Kloeckner",
-        author_email="inform@tiker.net",
+        long_description=open("README.md", "rt").read(),
+        long_description_content_type="text/markdown",
+        author="Tom Parker-Shemilt",
+        author_email="palfrey@tevp.net",
         classifiers=[
             "Development Status :: 5 - Production/Stable",
             "Intended Audience :: Developers",
@@ -72,7 +74,7 @@ def main():
             "Topic :: Utilities",
         ],
         license="MIT",
-        url="http://mathema.tician.de/software/tagpy",
+        url="https://github.com/palfrey/tagpy",
         packages=["tagpy", "tagpy.ogg"],
         ext_modules=[
             Extension(

@@ -8,7 +8,38 @@ on:
     pull_request:
 
 jobs:
-    build:
+    test:
+        strategy:
+            matrix:
+                include:
+                    - ubuntu-version: 20.04
+                      python-version: 3.8
+                    - ubuntu-version: 22.04
+                      python-version: '3.10'
+
+        runs-on: ubuntu-${{ matrix.ubuntu-version }}
+
+        steps:
+            - uses: actions/checkout@v3
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v4
+              with:
+                  python-version: ${{ matrix.python-version }}
+            - name: Install dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt
+                  sudo apt-get install -y --no-install-recommends libtag1-dev libboost-python-dev
+                  pip install -e .
+            - name: Test with pytest
+              run: pytest -vvv --cov=tagpy --cov-report=term-missing --cov-report=lcov
+            - name: Coveralls
+              uses: coverallsapp/github-action@master
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  path-to-lcov: coverage.lcov
+
+    integration:
         runs-on: ubuntu-20.04
         strategy:
             matrix:

@@ -1,25 +1,28 @@
+import pathlib
 import pytest
 import tagpy
 
-try:
-    import faulthandler
-except ImportError:
-    pass
-else:
-    faulthandler.enable()
-
 
 def test_non_existing_fileref():
-    with pytest.raises(IOError):
+    with pytest.raises(IOError) as e:
         tagpy.FileRef("does_not_exist.ogg")
+    assert e.value.args == ("File does not exist",)
 
 
-if __name__ == "__main__":
-    import sys
+def test_no_such_type():
+    with pytest.raises(ValueError) as e:
+        tagpy.FileRef(str(pathlib.Path(__file__).parent.joinpath("foo.bar")))
+    assert e.value.args == ("unable to find file type",)
 
-    if len(sys.argv) > 1:
-        exec(sys.argv[1])
-    else:
-        from py.test.cmdline import main
 
-        main([__file__])
+def test_resolver():
+    class DemoFile:
+        pass
+
+    class DemoResolver(tagpy.FileTypeResolver):
+        def createFile(self, *args, **kwargs):
+            return DemoFile()
+
+    tagpy.FileRef.addFileTypeResolver(DemoResolver)
+    f = tagpy.FileRef(str(pathlib.Path(__file__).parent.joinpath("la.ogg")))
+    assert isinstance(f._file, DemoFile)

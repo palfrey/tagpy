@@ -4,6 +4,4 @@ include src/wrapper/common.hpp
 include test/tagrename
 include LICENSE
 
-include Makefile.in
-
 include README.md

@@ -1,7 +1,6 @@
 *~
 build
 siteconf.py
-Makefile
 .*.swp
 tags
 dist
@@ -11,3 +10,5 @@ MANIFEST
 *.so
 *.pyd
 setuptools.pth
+.vscode
+.coverage

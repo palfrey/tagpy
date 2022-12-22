@@ -12,3 +12,4 @@ MANIFEST
 setuptools.pth
 .vscode
 .coverage
+coverage.lcov

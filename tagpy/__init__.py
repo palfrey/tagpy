@@ -73,6 +73,7 @@ class FileRef(object):
         import tagpy.mpeg
         import tagpy.flac
         import tagpy.mpc
+        import tagpy.wav
 
         # import tagpy.wavpack, tagpy.ogg.speex, tagpy.trueaudio
 
@@ -82,6 +83,7 @@ class FileRef(object):
             "oga": tagpy.ogg.flac,
             "flac": tagpy.flac,
             "mpc": tagpy.mpc,
+            "wav": tagpy.wav,
             # ".wv": tagpy.wavpack,
             # ".spx": tagpy.ogg.speex,
             # ".tta": tagpy.trueaudio,

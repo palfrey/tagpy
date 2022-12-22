@@ -31,6 +31,7 @@
 #include <taglib/apeitem.h>
 #include <taglib/id3v1tag.h>
 #include <taglib/id3v2tag.h>
+#include <taglib/wavfile.h>
 
 #include "common.hpp"
 
@@ -64,6 +65,9 @@ namespace
   MF_OL(remove, 0, 1);
   //MF_OL(ID3v1Tag, 0, 1);
   MF_OL(APETag, 0, 1);
+
+  // WAV
+  MF_OL(strip, 0, 1);
 }
 
 
@@ -238,10 +242,33 @@ void exposeRest()
            remove_overloads())
       ;
   }
+
+  /// WAV
+
+  enum_<TagLib::RIFF::WAV::File::TagTypes>("wav_TagTypes")
+    .value("NoTags", TagLib::RIFF::WAV::File::NoTags)
+    .value("ID3v2", TagLib::RIFF::WAV::File::ID3v2)
+    .value("Info", TagLib::RIFF::WAV::File::Info)
+    .value("AllTags", TagLib::RIFF::WAV::File::AllTags)
+    ;
+
+  {
+    typedef TagLib::RIFF::WAV::File cl;
+    class_<cl, bases<File>, boost::noncopyable>
+      ("wav_File", init<const char *, optional<bool, AudioProperties::ReadStyle> >())
+      .def("ID3v2Tag",
+           (ID3v2::Tag *(TagLib::RIFF::WAV::File::*)())
+           &cl::ID3v2Tag,
+           return_internal_reference<>())
+      .def("InfoTag",
+           (TagLib::RIFF::Info::Tag *(TagLib::RIFF::WAV::File::*)())
+           &cl::InfoTag,
+           return_internal_reference<>())
+      .DEF_OVERLOADED_METHOD(strip, void (cl::*)(TagLib::RIFF::WAV::File::TagTypes) const)
+      ;
+  }
+
 }
-
-
-
 
 // EMACS-FORMAT-TAG
 //

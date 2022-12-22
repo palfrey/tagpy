@@ -23,6 +23,13 @@ def test_resolver():
         def createFile(self, *args, **kwargs):
             return DemoFile()
 
-    tagpy.FileRef.addFileTypeResolver(DemoResolver)
-    f = tagpy.FileRef(str(pathlib.Path(__file__).parent.joinpath("la.ogg")))
-    assert isinstance(f._file, DemoFile)
+    try:
+        tagpy.FileRef.addFileTypeResolver(DemoResolver)
+        f = tagpy.FileRef(str(pathlib.Path(__file__).parent.joinpath("la.ogg")))
+        assert isinstance(f._file, DemoFile)
+    finally:
+        tagpy.FileRef.fileTypeResolvers = []
+
+
+def test_wav():
+    tagpy.FileRef(str(pathlib.Path(__file__).parent.joinpath("Caldhu.wav")))

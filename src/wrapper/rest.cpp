@@ -264,7 +264,9 @@ void exposeRest()
            (TagLib::RIFF::Info::Tag *(TagLib::RIFF::WAV::File::*)())
            &cl::InfoTag,
            return_internal_reference<>())
+      #if (TAGPY_TAGLIB_HEX_VERSION >= 0x11100)
       .DEF_OVERLOADED_METHOD(strip, void (cl::*)(TagLib::RIFF::WAV::File::TagTypes) const)
+      #endif
       ;
   }
 

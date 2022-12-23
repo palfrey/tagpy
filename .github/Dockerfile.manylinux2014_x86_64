@@ -1,0 +1,8 @@
+FROM quay.io/pypa/manylinux2014_x86_64
+WORKDIR /work
+RUN yum install -y taglib-devel boost-python36-devel
+RUN /opt/python/cp36-cp36m/bin/python -m pip install wheel pytest
+COPY . /work
+RUN /opt/python/cp36-cp36m/bin/python setup.py bdist_wheel
+RUN /opt/python/cp36-cp36m/bin/python -m pip install dist/*
+RUN /opt/python/cp36-cp36m/bin/python -m pytest -vvv

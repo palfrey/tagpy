@@ -36,6 +36,7 @@ def main():
     boost_name = None
 
     boost_options = [
+        "boost_python%d" % sys.version_info[0],
         "boost_python%d%d" % sys.version_info[:2],
         "boost_python-py%d%d" % sys.version_info[:2],
     ]

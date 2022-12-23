@@ -1,5 +1,6 @@
 TagPy
 =====
+[![PyPI](https://img.shields.io/pypi/v/tagpy)](https://pypi.org/project/tagpy/)
 [![Coverage Status](https://coveralls.io/repos/github/palfrey/tagpy/badge.svg)](https://coveralls.io/github/palfrey/tagpy)
 
 TagPy is a a set of Python bindings for [Scott Wheeler's TagLib](https://taglib.org/). It builds upon [Boost.Python](http://www.boost.org/libs/python/doc/), a wrapper generation library which

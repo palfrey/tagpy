@@ -29,9 +29,10 @@ jobs:
                   # A list of supported versions can be found here:
                   # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
                   boost_version: 1.80.0
-                  platform_version: 22.04
+                  platform_version: 22.04 # as per runs-on
             - name: Install dependencies
               run: |
+                  find ${{steps.install-boost.outputs.BOOST_ROOT}}
                   python -m pip install --upgrade pip
                   pip install -r requirements.txt
                   sudo apt-get install -y --no-install-recommends libtag1-dev lcov

@@ -30,14 +30,35 @@ jobs:
                   python -m pip install --upgrade pip
                   pip install -r requirements.txt
                   sudo apt-get install -y --no-install-recommends libtag1-dev libboost-python-dev
-                  pip install -e .
+                  # Can't use "pip install" because of compile flags. See https://github.com/pypa/setuptools/issues/3025
+                  CPPFLAGS="-coverage" python setup.py install
             - name: Test with pytest
               run: pytest -vvv --cov=tagpy --cov-report=term-missing --cov-report=lcov
-            - name: Coveralls
+            - name: Python Coveralls
               uses: coverallsapp/github-action@master
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   path-to-lcov: coverage.lcov
+                  parallel: true
+                  flag-name: Python-${{ matrix.python-version }}
+            - run: gcovr build --coveralls c.coveralls --coveralls-pretty
+            - name: Coveralls
+              uses: coverallsapp/github-action@master
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  path-to-lcov: c.coverage
+                  parallel: true
+                  flag-name: CPP-${{ matrix.python-version }}
+
+    finish:
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Coveralls Finished
+              uses: coverallsapp/github-action@master
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  parallel-finished: true
 
     integration:
         runs-on: ubuntu-20.04

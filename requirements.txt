@@ -1,6 +1,5 @@
 pytest
 pytest-cov
-gcovr
 
 twine
 build

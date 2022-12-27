@@ -13,4 +13,4 @@ setuptools.pth
 .vscode
 .coverage
 coverage.lcov
-cpp.coveralls
+cpp.info

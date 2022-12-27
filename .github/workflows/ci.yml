@@ -22,7 +22,7 @@ jobs:
               with:
                   python-version: ${{ matrix.python-version }}
             - name: Install boost
-              uses: MarkusJx/install-boost@v2
+              uses: MarkusJx/install-boost@v2.4.1
               id: install-boost
               with:
                   # REQUIRED: Specify the required boost version

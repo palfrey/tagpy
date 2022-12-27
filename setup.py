@@ -34,7 +34,7 @@ def main():
     INCLUDE_DIRS = ""  # conf["TAGLIB_INC_DIR"] + conf["BOOST_INC_DIR"]
     LIBRARY_DIRS = ""  # conf["TAGLIB_LIB_DIR"] + conf["BOOST_LIB_DIR"]
 
-    tagpy_static = bool(os.environ.get("TAGPY_STATIC", "False"))
+    tagpy_static = os.environ.get("TAGPY_STATIC", "False") == "True"
 
     if tagpy_static:
         LIBRARIES = []

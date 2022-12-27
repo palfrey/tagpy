@@ -23,6 +23,7 @@
 # SOFTWARE.
 
 from ctypes.util import find_library
+import os
 import sys
 from setuptools import setup
 from distutils.core import Extension
@@ -33,23 +34,31 @@ def main():
     INCLUDE_DIRS = ""  # conf["TAGLIB_INC_DIR"] + conf["BOOST_INC_DIR"]
     LIBRARY_DIRS = ""  # conf["TAGLIB_LIB_DIR"] + conf["BOOST_LIB_DIR"]
 
-    boost_name = None
+    tagpy_static = bool(os.environ.get("TAGPY_STATIC", "False"))
 
-    boost_options = [
-        "boost_python%d" % sys.version_info[0],
-        "boost_python%d%d" % sys.version_info[:2],
-        "boost_python-py%d%d" % sys.version_info[:2],
-        "boost_python%d%d-mt-x64" % sys.version_info[:2],
-    ]
+    if tagpy_static:
+        LIBRARIES = []
+        EXTRA_OBJECTS = [os.environ["BOOST_STATIC_LIB"]]
+    else:
+        boost_name = None
+        boost_options = [
+            "boost_python%d" % sys.version_info[0],
+            "boost_python%d%d" % sys.version_info[:2],
+            "boost_python-py%d%d" % sys.version_info[:2],
+            "boost_python%d%d-mt-x64" % sys.version_info[:2],
+        ]
 
-    for boost_option in boost_options:
-        if find_library(boost_option) is not None:
-            boost_name = boost_option
-            break
+        for boost_option in boost_options:
+            if find_library(boost_option) is not None:
+                boost_name = boost_option
+                break
 
-    assert boost_name is not None, "Can't find boost-python. Tried %s" % boost_options
+        assert boost_name is not None, (
+            "Can't find boost-python. Tried %s" % boost_options
+        )
 
-    LIBRARIES = [boost_name, "tag"]
+        LIBRARIES = [boost_name, "tag"]
+        EXTRA_OBJECTS = []
 
     setup(
         name="tagpy",
@@ -89,6 +98,7 @@ def main():
                 include_dirs=INCLUDE_DIRS,
                 library_dirs=LIBRARY_DIRS,
                 libraries=LIBRARIES,
+                extra_objects=EXTRA_OBJECTS,
                 extra_compile_args="",  # conf["CXXFLAGS"],
             ),
         ],

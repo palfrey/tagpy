@@ -30,10 +30,9 @@ jobs:
                   python -m pip install --upgrade pip
                   pip install -r requirements.txt
                   sudo apt-get install -y --no-install-recommends libtag1-dev libboost-python-dev lcov
-                  # Can't use "pip install" because of compile flags. See https://github.com/pypa/setuptools/issues/3025
-                  CPPFLAGS="-coverage" python setup.py install
+                  CPPFLAGS="-coverage" pip install -e .
             - name: Test with pytest
-              run: pytest -vvv --cov=tagpy --cov-report=term-missing --cov-report=lcov
+              run: pytest -vvv --cov=tagpy --cov-report=term-missing --cov-report=lcov --cov-fail-under=50
             - name: Python Coveralls
               uses: coverallsapp/github-action@master
               with:
@@ -42,7 +41,7 @@ jobs:
                   parallel: true
                   flag-name: Python-${{ matrix.python-version }}
             - name: LCOV
-              run: lcov --directory build --output-file cpp.info --capture --exclude "/usr/include/*"
+              run: lcov --directory build --output-file cpp.info --capture --exclude "/usr/include/*" --exclude "/opt/hostedtoolcache/*"
             - name: C++ Coveralls
               uses: coverallsapp/github-action@master
               with:

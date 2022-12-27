@@ -29,15 +29,36 @@ jobs:
               run: |
                   python -m pip install --upgrade pip
                   pip install -r requirements.txt
-                  sudo apt-get install -y --no-install-recommends libtag1-dev libboost-python-dev
-                  pip install -e .
+                  sudo apt-get install -y --no-install-recommends libtag1-dev libboost-python-dev lcov
+                  CPPFLAGS="-coverage" pip install -e .
             - name: Test with pytest
-              run: pytest -vvv --cov=tagpy --cov-report=term-missing --cov-report=lcov
-            - name: Coveralls
+              run: pytest -vvv --cov=tagpy --cov-report=term-missing --cov-report=lcov --cov-fail-under=50
+            - name: Python Coveralls
               uses: coverallsapp/github-action@master
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   path-to-lcov: coverage.lcov
+                  parallel: true
+                  flag-name: Python-${{ matrix.python-version }}
+            - name: LCOV
+              run: lcov --directory build --output-file cpp.info --capture --exclude "/usr/include/*" --exclude "/opt/hostedtoolcache/*"
+            - name: C++ Coveralls
+              uses: coverallsapp/github-action@master
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  path-to-lcov: cpp.info
+                  parallel: true
+                  flag-name: CPP-${{ matrix.python-version }}
+
+    finish:
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Coveralls Finished
+              uses: coverallsapp/github-action@master
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  parallel-finished: true
 
     integration:
         runs-on: ubuntu-20.04

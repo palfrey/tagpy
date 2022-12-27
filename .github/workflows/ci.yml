@@ -41,12 +41,12 @@ jobs:
                   path-to-lcov: coverage.lcov
                   parallel: true
                   flag-name: Python-${{ matrix.python-version }}
-            - run: gcovr build --coveralls c.coveralls --coveralls-pretty
-            - name: Coveralls
+            - run: gcovr build --coveralls cpp.coveralls --coveralls-pretty
+            - name: C++ Coveralls
               uses: coverallsapp/github-action@master
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
-                  path-to-lcov: c.coverage
+                  path-to-lcov: cpp.coveralls
                   parallel: true
                   flag-name: CPP-${{ matrix.python-version }}
 

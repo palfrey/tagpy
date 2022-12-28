@@ -39,6 +39,7 @@ def main():
         "boost_python%d" % sys.version_info[0],
         "boost_python%d%d" % sys.version_info[:2],
         "boost_python-py%d%d" % sys.version_info[:2],
+        "boost_python%d%d-mt-x64" % sys.version_info[:2],
     ]
 
     for boost_option in boost_options:

@@ -19,12 +19,11 @@ reading and writing mechanism is also supported.
 
 You can find examples in the test/ directory.
 
+Installing TagPy
+================
 
-Building TagPy
-==============
-
-Step 1: Install dependencies
--------------------------------
+If you're lucky (Python 3.7-3.9 on x86 Linux currently), you can probably just run `pip install tagpy` which will use the precompiled wheels. If this fails due to compilation
+issues, you'll need to install some things first.
 
 * Debian: `apt-get install libboost-python-dev libtag1-dev`
 * Fedora: `dnf install boost-python3-devel taglib-devel`
@@ -39,13 +38,6 @@ TagPy works with
 
 Slightly older versions of gcc and Boost.Python should be fine, but the 1.4 requirement for TagLib is
 firm. Anything newer is probably ok, and please file bugs for anything that fails.
-
-Step 2: Installing TagPy
-------------------------
-
-Then, run `pip install tagpy`
-
-Congratulations! You are now ready to use TagPy.
 
 Using TagPy
 ===========

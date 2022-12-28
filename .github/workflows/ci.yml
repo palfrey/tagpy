@@ -11,13 +11,9 @@ jobs:
     test:
         strategy:
             matrix:
-                include:
-                    - ubuntu-version: 20.04
-                      python-version: 3.8
-                    - ubuntu-version: 22.04
-                      python-version: '3.10'
+                python-version: ['3.7', '3.8', '3.9', '3.10']
 
-        runs-on: ubuntu-${{ matrix.ubuntu-version }}
+        runs-on: ubuntu-22.04
 
         steps:
             - uses: actions/checkout@v3
@@ -25,12 +21,24 @@ jobs:
               uses: actions/setup-python@v4
               with:
                   python-version: ${{ matrix.python-version }}
+            - name: Install boost
+              uses: MarkusJx/install-boost@v2.4.1
+              id: install-boost
+              with:
+                  # REQUIRED: Specify the required boost version
+                  # A list of supported versions can be found here:
+                  # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
+                  boost_version: 1.81.0
+                  platform_version: 22.04 # as per runs-on
             - name: Install dependencies
               run: |
                   python -m pip install --upgrade pip
                   pip install -r requirements.txt
-                  sudo apt-get install -y --no-install-recommends libtag1-dev libboost-python-dev lcov
-                  CPPFLAGS="-coverage" pip install -e .
+                  sudo apt-get install -y --no-install-recommends libtag1-dev lcov
+                  CPPFLAGS="-coverage -I${{steps.install-boost.outputs.BOOST_ROOT}}/include" pip install -e .
+              env:
+                  PYTHON_VERSION: ${{matrix.python-version}}
+                  LD_LIBRARY_PATH: ${{steps.install-boost.outputs.BOOST_ROOT}}/lib
             - name: Test with pytest
               run: pytest -vvv --cov=tagpy --cov-report=term-missing --cov-report=lcov --cov-fail-under=50
             - name: Python Coveralls

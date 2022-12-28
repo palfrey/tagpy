@@ -106,3 +106,10 @@ jobs:
               run: |
                   rm -rf /tmp/.buildx-cache
                   mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+    manylinux:
+        runs-on: ubuntu-latest
+        name: Test Manylinux builds
+        steps:
+            - uses: actions/checkout@v2
+            - run: make manylinux2014

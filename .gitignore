@@ -14,3 +14,4 @@ setuptools.pth
 .coverage
 coverage.lcov
 cpp.info
+wheelhouse/

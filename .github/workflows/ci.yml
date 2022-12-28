@@ -53,7 +53,7 @@ jobs:
                   parallel: true
                   flag-name: Python-${{ matrix.python-version }}
             - name: LCOV
-              run: lcov --directory build --output-file cpp.info --capture --exclude "/usr/include/*" --exclude "/opt/hostedtoolcache/*"
+              run: lcov --directory build --output-file cpp.info --capture --exclude "/usr/include/*" --exclude "/opt/hostedtoolcache/*" --exclude "boost/*"
             - name: C++ Coveralls
               uses: coverallsapp/github-action@master
               with:

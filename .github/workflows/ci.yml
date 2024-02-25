@@ -22,13 +22,13 @@ jobs:
               with:
                   python-version: ${{ matrix.python-version }}
             - name: Install boost
-              uses: MarkusJx/install-boost@v2.4.1
+              uses: MarkusJx/install-boost@v2.4.5
               id: install-boost
               with:
                   # REQUIRED: Specify the required boost version
                   # A list of supported versions can be found here:
                   # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
-                  boost_version: 1.81.0
+                  boost_version: 1.84.0
                   platform_version: 22.04 # as per runs-on
             - name: Install dependencies
               run: |

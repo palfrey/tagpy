@@ -80,7 +80,7 @@ jobs:
         runs-on: ubuntu-20.04
         strategy:
             matrix:
-                os: [fedora-35, ubuntu-20.04, ubuntu-22.04, alpine-3.17, manylinux2014_x86_64, manylinux_2_28]
+                os: [fedora-35, ubuntu-20.04, ubuntu-22.04, alpine-3.17, manylinux_2_28]
         name: Build ${{ matrix.os }}
         steps:
             - uses: actions/checkout@v2

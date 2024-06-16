@@ -121,6 +121,11 @@ void exposeRest()
       .DEF_OVERLOADED_METHOD(removeFields, void (cl::*)(const String &, const String &))
       #endif
       .DEF_OVERLOADED_METHOD(render, ByteVector (cl::*)(bool) const)
+      .DEF_SIMPLE_METHOD(pictureList)
+      .DEF_SIMPLE_METHOD(removeAllPictures)
+      .def("removePicture", &cl::removePicture)
+      .def("addPicture", &cl::addPicture);
+
       ;
   }
 
@@ -218,6 +223,45 @@ void exposeRest()
   // -------------------------------------------------------------
   // FLAC
   // -------------------------------------------------------------
+  enum_<TagLib::FLAC::Picture::Type>("flac_PictureType")
+    .value("Other", TagLib::FLAC::Picture::Type::Other)
+    .value("FileIcon", TagLib::FLAC::Picture::Type::FileIcon)
+    .value("OtherFileIcon", TagLib::FLAC::Picture::Type::OtherFileIcon)
+    .value("FrontCover", TagLib::FLAC::Picture::Type::FrontCover)
+    .value("BackCover", TagLib::FLAC::Picture::Type::BackCover)
+    .value("LeafletPage", TagLib::FLAC::Picture::Type::LeafletPage)
+    .value("Media", TagLib::FLAC::Picture::Type::Media)
+    .value("LeadArtist", TagLib::FLAC::Picture::Type::LeadArtist)
+    .value("Artist", TagLib::FLAC::Picture::Type::Artist)
+    .value("Conductor", TagLib::FLAC::Picture::Type::Conductor)
+    .value("Band", TagLib::FLAC::Picture::Type::Band)
+    .value("Composer", TagLib::FLAC::Picture::Type::Composer)
+    .value("Lyricist", TagLib::FLAC::Picture::Type::Lyricist)
+    .value("RecordingLocation", TagLib::FLAC::Picture::Type::RecordingLocation)
+    .value("DuringRecording", TagLib::FLAC::Picture::Type::DuringRecording)
+    .value("DuringPerformance", TagLib::FLAC::Picture::Type::DuringPerformance)
+    .value("MovieScreenCapture", TagLib::FLAC::Picture::Type::MovieScreenCapture)
+    .value("ColouredFish", TagLib::FLAC::Picture::Type::ColouredFish)
+    .value("Illustration", TagLib::FLAC::Picture::Type::Illustration)
+    .value("BandLogo", TagLib::FLAC::Picture::Type::BandLogo)
+    .value("PublisherLogo", TagLib::FLAC::Picture::Type::PublisherLogo)
+    ;
+
+  {
+    typedef TagLib::FLAC::Picture cl;
+    class_<cl, boost::noncopyable>
+      ("flac_Picture", init<const ByteVector &>())
+      .DEF_SIMPLE_METHOD(type)
+      .DEF_SIMPLE_METHOD(data)
+      .DEF_SIMPLE_METHOD(mimeType)
+      .def("setType", &cl::setType)
+      .def("setMimeType", &cl::setMimeType);
+      ;
+
+  }
+
+  exposePointerList<TagLib::FLAC::Picture>("flac_PictureList");
+
   {
     typedef FLAC::File cl;
     class_<cl, boost::noncopyable, bases<File> >("flac_File",

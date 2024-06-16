@@ -22,3 +22,7 @@
 import _tagpy
 
 File = _tagpy.ogg_flac_File
+
+PictureType = _tagpy.flac_PictureType
+Picture = _tagpy.flac_Picture
+PictureList = _tagpy.flac_PictureList

@@ -80,15 +80,15 @@ namespace
       String album() const { return this->get_override("album")(); }
       String comment() const { return this->get_override("comment")(); }
       String genre() const { return this->get_override("genre")(); }
-      TagLib::uint year() const { return this->get_override("year")(); }
-      TagLib::uint track() const { return this->get_override("track")(); }
+      uint year() const { return this->get_override("year")(); }
+      uint track() const { return this->get_override("track")(); }
       void setTitle(const String &v) const { this->get_override("setTitle")(v); }
       void setArtist(const String &v) const { this->get_override("setArtist")(v); }
       void setAlbum(const String &v) const { this->get_override("setAlbum")(v); }
       void setComment(const String &v) const { this->get_override("setComment")(v); }
       void setGenre(const String &v) const { this->get_override("setGenre")(v); }
-      void setYear(TagLib::uint i) const { this->get_override("setYear")(i); }
-      void setTrack(TagLib::uint i) const { this->get_override("setTrack")(i); }
+      void setYear(uint i) const { this->get_override("setYear")(i); }
+      void setTrack(uint i) const { this->get_override("setTrack")(i); }
   };
 
 
@@ -169,7 +169,7 @@ BOOST_PYTHON_MODULE(_tagpy)
   {
     typedef AudioProperties cl;
     class_<AudioPropertiesWrap, boost::noncopyable>("AudioProperties", no_init)
-      .add_property("length", &cl::length)
+      .add_property("length", &cl::lengthInSeconds)
       .add_property("bitrate", &cl::bitrate)
       .add_property("sampleRate", &cl::sampleRate)
       .add_property("channels", &cl::channels)

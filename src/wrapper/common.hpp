@@ -129,7 +129,7 @@ namespace {
   // List
   // -------------------------------------------------------------
   template<typename Value>
-  Value &List_getitem(List<Value> &l, TagLib::uint i)
+  Value &List_getitem(List<Value> &l, uint i)
   {
     if (i >= l.size())
     {
@@ -140,7 +140,7 @@ namespace {
   }
 
   template<typename Value>
-  void List_setitem(List<Value> &l, TagLib::uint i, Value v)
+  void List_setitem(List<Value> &l, uint i, Value v)
   {
     if (i >= l.size())
     {
@@ -177,7 +177,7 @@ namespace {
   // PointerList
   // -------------------------------------------------------------
   template<typename Value>
-  Value *&PointerList_getitem(List<Value *> &l, TagLib::uint i)
+  Value *&PointerList_getitem(List<Value *> &l, uint i)
   {
     if (i >= l.size())
     {
@@ -188,7 +188,7 @@ namespace {
   }
 
   template<typename Value>
-  void PointerList_setitem(List<Value *> &l, TagLib::uint i, auto_ptr<Value> v)
+  void PointerList_setitem(List<Value *> &l, uint i, auto_ptr<Value> v)
   {
     if (i >= l.size())
     {

@@ -1,10 +1,10 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 WORKDIR /work
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends libtag1-dev libboost-python-dev python3-pip python-is-python3 build-essential
-RUN pip install wheel pytest
+RUN pip install --break-system-packages wheel pytest
 COPY . /work
 RUN python setup.py bdist_wheel
-RUN pip install dist/*
+RUN pip install --break-system-packages dist/*
 RUN pytest -vvv -s

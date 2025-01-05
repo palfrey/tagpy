@@ -2,7 +2,7 @@
 ignore = "E126,E127,E128,E123,E226,E241,E242"
 max-line-length=88
 
-[tool.pytest]
+[tool.pytest.ini_options]
 norecursedirs = "boost"
 
 [build-system]

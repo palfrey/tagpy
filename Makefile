@@ -16,7 +16,7 @@ manylinux2014-sh:
 		bash
 
 requirements-dev.txt: requirements-dev.in .tool-versions
-	uv pip compile requirements-dev.in -o requirements-dev.txt
+	uv pip compile --python 3.9 requirements-dev.in -o requirements-dev.txt
 
 .venv/bin/python:
 	uv venv

@@ -39,7 +39,7 @@ jobs:
                   find ${{steps.install-boost.outputs.BOOST_ROOT}}/lib | sort | grep python
                   CPPFLAGS="-coverage -I${{steps.install-boost.outputs.BOOST_ROOT}}/include" \
                     LDFLAGS="-L${{steps.install-boost.outputs.BOOST_ROOT}}/lib" \
-                    .venv/bin/pip install -e .
+                    .venv/bin/pip install .
               env:
                   LD_LIBRARY_PATH: ${{steps.install-boost.outputs.BOOST_ROOT}}/lib
             - name: Test with pytest
@@ -55,7 +55,7 @@ jobs:
                   flag-name: Python-${{ matrix.python-version }}
             - name: LCOV
               run: |
-                  find .
+                  find . | sort
                   lcov --version
                   lcov --directory build --output-file cpp.info --capture --exclude "/usr/include/*" --exclude "/opt/hostedtoolcache/*" --exclude "/home/runner/work/tagpy/tagpy/boost/*"
                   lcov --list cpp.info

@@ -38,11 +38,11 @@ jobs:
                   find ${{steps.install-boost.outputs.BOOST_ROOT}}/lib | sort | grep python
                   CPPFLAGS="-coverage -I${{steps.install-boost.outputs.BOOST_ROOT}}/include" \
                     LDFLAGS="-L${{steps.install-boost.outputs.BOOST_ROOT}}/lib" \
-                    python setup.py develop
+                    .venv/bin/python setup.py develop
               env:
                   LD_LIBRARY_PATH: ${{steps.install-boost.outputs.BOOST_ROOT}}/lib
             - name: Test with pytest
-              run: pytest -vvv --cov=tagpy --cov-report=term-missing --cov-report=lcov --cov-fail-under=50
+              run: .venv/bin/pytest -vvv --cov=tagpy --cov-report=term-missing --cov-report=lcov --cov-fail-under=50
               env:
                   LD_LIBRARY_PATH: ${{steps.install-boost.outputs.BOOST_ROOT}}/lib
             - name: Python Coveralls

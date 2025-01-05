@@ -24,8 +24,7 @@
 
 from ctypes.util import find_library
 import sys
-from setuptools import setup
-from distutils.core import Extension
+from setuptools import setup, Extension
 
 
 def main():

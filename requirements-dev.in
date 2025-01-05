@@ -5,3 +5,6 @@ twine
 build
 
 pre-commit
+
+cibuildwheel
+setuptools

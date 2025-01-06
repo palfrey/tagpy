@@ -11,8 +11,7 @@ jobs:
     test:
         strategy:
             matrix:
-                # FIXME: 3.13 needs https://github.com/MarkusJx/prebuilt-boost/pull/19
-                python-version: ['3.9', '3.10', '3.11', '3.12']
+                python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
 
         runs-on: ubuntu-22.04
 
@@ -29,7 +28,7 @@ jobs:
                   # REQUIRED: Specify the required boost version
                   # A list of supported versions can be found here:
                   # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
-                  boost_version: 1.84.0
+                  boost_version: 1.87.0
                   platform_version: 22.04 # as per runs-on
             - uses: asdf-vm/actions/install@v3
             - name: Install dependencies
@@ -39,7 +38,7 @@ jobs:
                   find ${{steps.install-boost.outputs.BOOST_ROOT}}/lib | sort | grep python
                   CPPFLAGS="-coverage -I${{steps.install-boost.outputs.BOOST_ROOT}}/include" \
                     LDFLAGS="-L${{steps.install-boost.outputs.BOOST_ROOT}}/lib" \
-                    .venv/bin/pip install .
+                    .venv/bin/pip install -e .
               env:
                   LD_LIBRARY_PATH: ${{steps.install-boost.outputs.BOOST_ROOT}}/lib
             - name: Test with pytest

@@ -105,7 +105,7 @@ my_env = os.environ.copy()
 my_env["VIRTUAL_ENV"] = venv_folder
 my_env["CPPFLAGS"] = (
     f"-coverage -I{boost_version_folder}/include"
-    + f"-I{taglib_build_version_folder}/include"
+    + f" -I{taglib_build_version_folder}/include"
 )
 my_env["LDFLAGS"] = f"-L{boost_version_folder}/lib -L{taglib_build_version_folder}/lib"
 extra_library_paths = f"{boost_version_folder}/lib:{taglib_build_version_folder}/lib"

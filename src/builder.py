@@ -73,15 +73,25 @@ taglib_build_version_folder = build_folder.joinpath(
 
 makefile_path = taglib_version_folder.joinpath("Makefile")
 if not makefile_path.exists():
-    subprocess.check_call(
-        [
-            "cmake",
-            f"-DCMAKE_INSTALL_PREFIX={taglib_build_version_folder}",
-            "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
-            ".",
-        ],
-        cwd=taglib_version_folder,
-    )
+    if taglib_version_folder.joinpath("CMakeLists.txt").exists():
+        subprocess.check_call(
+            [
+                "cmake",
+                f"-DCMAKE_INSTALL_PREFIX={taglib_build_version_folder}",
+                "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
+                ".",
+            ],
+            cwd=taglib_version_folder,
+        )
+    elif taglib_version_folder.joinpath("configure").exists():
+        subprocess.check_call(
+            [
+                "./configure",
+            ],
+            cwd=taglib_version_folder,
+        )
+    else:
+        raise Exception
 
 taglib_library = taglib_version_folder.joinpath("taglib", "libtag.a")
 if not taglib_library.exists():

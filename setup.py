@@ -49,7 +49,9 @@ def main():
 
     assert boost_name is not None, "Can't find boost-python. Tried %s" % boost_options
 
-    LIBRARIES = [boost_name, "tag", "z"]
+    LIBRARIES = [boost_name, "tag"]
+    if "-mt-" in boost_name:
+        LIBRARIES.append("z")
 
     setup(
         name="tagpy",

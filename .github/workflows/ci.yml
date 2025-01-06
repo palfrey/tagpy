@@ -23,7 +23,9 @@ jobs:
                   python-version: ${{ matrix.python-version }}
             - uses: asdf-vm/actions/install@v3
             - name: Install dependencies
-              run: make sync
+              run: |
+                  make sync
+                  sudo apt-get install -y --no-install-recommends lcov
             - name: Run builder
               run: .venv/bin/python src/builder.py --python-version ${{ matrix.python-version }}
             - name: Python Coveralls

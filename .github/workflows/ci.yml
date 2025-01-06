@@ -38,7 +38,7 @@ jobs:
                   find ${{steps.install-boost.outputs.BOOST_ROOT}}/lib | sort | grep python
                   CPPFLAGS="-coverage -I${{steps.install-boost.outputs.BOOST_ROOT}}/include" \
                     LDFLAGS="-L${{steps.install-boost.outputs.BOOST_ROOT}}/lib" \
-                    .venv/bin/pip install -e .
+                    .venv/bin/pip install .
               env:
                   LD_LIBRARY_PATH: ${{steps.install-boost.outputs.BOOST_ROOT}}/lib
             - name: Test with pytest

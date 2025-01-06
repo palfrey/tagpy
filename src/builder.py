@@ -15,6 +15,7 @@ args = parser.parse_args()
 
 root_folder = Path(__file__).absolute().parent.parent
 build_folder = root_folder.joinpath("build")
+build_folder.mkdir(exist_ok=True)
 manifest_path = build_folder.joinpath("versions-manifest.json")
 
 if not manifest_path.exists():

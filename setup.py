@@ -77,7 +77,7 @@ def main():
         license="MIT",
         url="https://github.com/palfrey/tagpy",
         packages=["tagpy", "tagpy.ogg"],
-        python_requires=">=3.8, <4",
+        python_requires=">=3.9, <4",
         ext_modules=[
             Extension(
                 "_tagpy",

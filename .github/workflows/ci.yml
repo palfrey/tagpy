@@ -35,7 +35,6 @@ jobs:
                   flag-name: Python-${{ matrix.python-version }}
             - name: LCOV
               run: |
-                  find build | sort
                   lcov --version
                   lcov --directory build --output-file cpp.info --capture --exclude "/usr/include/*" --exclude "/opt/hostedtoolcache/*" --exclude "/home/runner/work/tagpy/tagpy/boost/*"
                   lcov --list cpp.info

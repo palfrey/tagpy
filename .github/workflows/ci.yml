@@ -21,30 +21,11 @@ jobs:
               uses: actions/setup-python@v4
               with:
                   python-version: ${{ matrix.python-version }}
-            - name: Install boost
-              uses: MarkusJx/install-boost@v2.4.5
-              id: install-boost
-              with:
-                  # REQUIRED: Specify the required boost version
-                  # A list of supported versions can be found here:
-                  # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
-                  boost_version: 1.87.0
-                  platform_version: 22.04 # as per runs-on
             - uses: asdf-vm/actions/install@v3
             - name: Install dependencies
-              run: |
-                  make sync
-                  sudo apt-get install -y --no-install-recommends libtag1-dev lcov
-                  find ${{steps.install-boost.outputs.BOOST_ROOT}}/lib | sort | grep python
-                  CPPFLAGS="-coverage -I${{steps.install-boost.outputs.BOOST_ROOT}}/include" \
-                    LDFLAGS="-L${{steps.install-boost.outputs.BOOST_ROOT}}/lib" \
-                    .venv/bin/pip install .
-              env:
-                  LD_LIBRARY_PATH: ${{steps.install-boost.outputs.BOOST_ROOT}}/lib
-            - name: Test with pytest
-              run: .venv/bin/pytest -vvv --cov=tagpy --cov-report=term-missing --cov-report=lcov --cov-fail-under=50
-              env:
-                  LD_LIBRARY_PATH: ${{steps.install-boost.outputs.BOOST_ROOT}}/lib
+              run: make sync
+            - name: Run builder
+              run: .venv/bin/python src/builder.py --python-version ${{ matrix.python-version }}
             - name: Python Coveralls
               uses: coverallsapp/github-action@master
               with:

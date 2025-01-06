@@ -2,8 +2,8 @@ FROM quay.io/pypa/manylinux_2_28_x86_64
 WORKDIR /work
 RUN yum install -y taglib-devel boost-python3-devel
 RUN ls /opt/python
-RUN /opt/python/cp38-cp38/bin/python -m pip install wheel pytest
+RUN /opt/python/cp39-cp39/bin/python -m pip install wheel pytest
 COPY . /work
-RUN /opt/python/cp38-cp38/bin/python setup.py bdist_wheel
-RUN /opt/python/cp38-cp38/bin/python -m pip install dist/*
-RUN /opt/python/cp38-cp38/bin/python -m pytest -vvv
+RUN /opt/python/cp39-cp39/bin/python setup.py bdist_wheel
+RUN /opt/python/cp39-cp39/bin/python -m pip install dist/*
+RUN /opt/python/cp39-cp39/bin/python -m pytest -vvv

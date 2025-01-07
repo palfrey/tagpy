@@ -40,7 +40,8 @@ jobs:
             - name: LCOV
               run: |
                   lcov --version
-                  lcov --directory build --output-file cpp.info --capture --exclude "/usr/include/*" --exclude "/opt/hostedtoolcache/*" --exclude "/home/runner/work/tagpy/tagpy/boost/*"
+                  lcov --directory build --output-file cpp.info --capture --exclude "/usr/include/*" --exclude "/opt/hostedtoolcache/*" --exclude "build/boost-*"
+                  --exclude "build/taglib-*"
                   lcov --list cpp.info
             - name: C++ Coveralls
               uses: coverallsapp/github-action@master

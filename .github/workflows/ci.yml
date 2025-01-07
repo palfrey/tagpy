@@ -12,6 +12,8 @@ jobs:
         strategy:
             matrix:
                 python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
+                # Least and most supported
+                taglib-version: ['1.9', 1.13.1]
 
         runs-on: ubuntu-22.04
 
@@ -27,7 +29,7 @@ jobs:
                   make sync
                   sudo apt-get install -y --no-install-recommends lcov
             - name: Run builder
-              run: .venv/bin/python src/builder.py --python-version ${{ matrix.python-version }}
+              run: .venv/bin/python src/builder.py --python-version ${{ matrix.python-version }} --taglib-version ${{ matrix.taglib-version }}
             - name: Python Coveralls
               uses: coverallsapp/github-action@master
               with:

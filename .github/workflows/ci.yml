@@ -50,16 +50,6 @@ jobs:
                   parallel: true
                   flag-name: CPP-${{ matrix.python-version }}
 
-    finish:
-        needs: test
-        runs-on: ubuntu-latest
-        steps:
-            - name: Coveralls Finished
-              uses: coverallsapp/github-action@master
-              with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  parallel-finished: true
-
     integration:
         runs-on: ubuntu-20.04
         strategy:
@@ -105,3 +95,13 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - run: make manylinux2014
+
+    finish:
+        needs: [test, integration, manylinux]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Coveralls Finished
+              uses: coverallsapp/github-action@master
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  parallel-finished: true

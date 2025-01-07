@@ -42,13 +42,16 @@ def main():
     ]
 
     for boost_option in boost_options:
-        if find_library(boost_option) is not None:
+        library_path = find_library(boost_option)
+        if library_path is not None:
             boost_name = boost_option
             break
 
     assert boost_name is not None, "Can't find boost-python. Tried %s" % boost_options
 
     LIBRARIES = [boost_name, "tag"]
+    if "-mt-" in boost_name:
+        LIBRARIES.append("z")
 
     setup(
         name="tagpy",

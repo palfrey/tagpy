@@ -14,3 +14,12 @@ manylinux2014-sh:
 		--workdir /src \
 		registry.gitlab.com/bjmuld/manylinux-boost/manylinux2014_x86_64 \
 		bash
+
+requirements-dev.txt: requirements-dev.in .tool-versions
+	uv pip compile --python 3.9 requirements-dev.in -o requirements-dev.txt
+
+.venv/bin/python:
+	uv venv
+
+sync: requirements-dev.txt .venv/bin/python
+	uv pip sync requirements-dev.txt

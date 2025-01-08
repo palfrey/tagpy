@@ -1,0 +1,8 @@
+FROM alpine:3.21.0
+WORKDIR /work
+RUN apk add --no-cache taglib-dev python3-dev py3-pip boost1.84-python3 boost1.84-dev build-base
+RUN pip install --break-system-packages wheel pytest
+COPY . /work
+RUN python3 setup.py bdist_wheel
+RUN pip install --break-system-packages dist/*
+RUN pytest -vvv -s

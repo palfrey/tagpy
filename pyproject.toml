@@ -1,0 +1,13 @@
+[tool.flake8]
+ignore = "E126,E127,E128,E123,E226,E241,E242,W503"
+max-line-length=88
+
+[tool.pytest.ini_options]
+norecursedirs = "boost build"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.coverage.run]
+relative_files = true

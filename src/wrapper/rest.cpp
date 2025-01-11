@@ -51,7 +51,11 @@ namespace
   // Ogg
   // -------------------------------------------------------------
   MF_OL(addField, 2, 3);
+  #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 11)
+  MF_OL(removeField, 1, 2);
+  #else
   MF_OL(removeFields, 1, 2);
+  #endif
   MF_OL(render, 0, 1);
 
   // -------------------------------------------------------------
@@ -89,8 +93,13 @@ void exposeRest()
            return_internal_reference<>())
       .DEF_SIMPLE_METHOD(vendorID)
       .DEF_OVERLOADED_METHOD(addField, void (cl::*)(const String &, const String &, bool))
+      #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 11)
+      .DEF_OVERLOADED_METHOD(removeField, void (cl::*)(const String &, const String &))
+      .DEF_OVERLOADED_METHOD(removeField, void (cl::*)(const String &, const String &))
+      #else
       .DEF_OVERLOADED_METHOD(removeFields, void (cl::*)(const String &, const String &))
       .DEF_OVERLOADED_METHOD(removeFields, void (cl::*)(const String &, const String &))
+      #endif
       .DEF_OVERLOADED_METHOD(render, ByteVector (cl::*)(bool) const)
       ;
   }

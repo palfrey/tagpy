@@ -169,7 +169,11 @@ BOOST_PYTHON_MODULE(_tagpy)
   {
     typedef AudioProperties cl;
     class_<AudioPropertiesWrap, boost::noncopyable>("AudioProperties", no_init)
+      #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 10)
+      .add_property("length", &cl::length)
+      #else
       .add_property("length", &cl::lengthInSeconds)
+      #endif
       .add_property("bitrate", &cl::bitrate)
       .add_property("sampleRate", &cl::sampleRate)
       .add_property("channels", &cl::channels)

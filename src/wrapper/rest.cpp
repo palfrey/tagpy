@@ -51,7 +51,11 @@ namespace
   // Ogg
   // -------------------------------------------------------------
   MF_OL(addField, 2, 3);
+  #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 11)
   MF_OL(removeField, 1, 2);
+  #else
+  MF_OL(removeFields, 1, 2);
+  #endif
   MF_OL(render, 0, 1);
 
   // -------------------------------------------------------------
@@ -62,7 +66,6 @@ namespace
   // -------------------------------------------------------------
   // MPC
   // -------------------------------------------------------------
-  MF_OL(remove, 0, 1);
   //MF_OL(ID3v1Tag, 0, 1);
   MF_OL(APETag, 0, 1);
 
@@ -90,8 +93,13 @@ void exposeRest()
            return_internal_reference<>())
       .DEF_SIMPLE_METHOD(vendorID)
       .DEF_OVERLOADED_METHOD(addField, void (cl::*)(const String &, const String &, bool))
+      #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 11)
       .DEF_OVERLOADED_METHOD(removeField, void (cl::*)(const String &, const String &))
       .DEF_OVERLOADED_METHOD(removeField, void (cl::*)(const String &, const String &))
+      #else
+      .DEF_OVERLOADED_METHOD(removeFields, void (cl::*)(const String &, const String &))
+      .DEF_OVERLOADED_METHOD(removeFields, void (cl::*)(const String &, const String &))
+      #endif
       .DEF_OVERLOADED_METHOD(render, ByteVector (cl::*)(bool) const)
       ;
   }
@@ -159,10 +167,10 @@ void exposeRest()
       .def(init<const String &, const StringList &>())
       .def(init<const cl &>())
       .DEF_SIMPLE_METHOD(key)
-      .DEF_SIMPLE_METHOD(value)
+      .DEF_SIMPLE_METHOD(binaryData)
       .DEF_SIMPLE_METHOD(size)
       .DEF_SIMPLE_METHOD(toString)
-      .DEF_SIMPLE_METHOD(toStringList)
+      .DEF_SIMPLE_METHOD(values)
       .DEF_SIMPLE_METHOD(render)
       .DEF_SIMPLE_METHOD(parse)
       .DEF_SIMPLE_METHOD(setReadOnly)
@@ -207,9 +215,6 @@ void exposeRest()
            (Ogg::XiphComment *(FLAC::File::*)(bool))
            &FLAC::File::xiphComment,
            xiphComment_overloads()[return_internal_reference<>()])
-      .DEF_SIMPLE_METHOD(setID3v2FrameFactory)
-      .DEF_SIMPLE_METHOD(streamInfoData)
-      .DEF_SIMPLE_METHOD(streamLength)
       ;
   }
 
@@ -238,8 +243,8 @@ void exposeRest()
            APETag_overloads()[return_internal_reference<>()])
       .def("remove",
            (void (cl::*)(int))
-           &cl::remove,
-           remove_overloads())
+           &cl::strip,
+           strip_overloads())
       ;
   }
 

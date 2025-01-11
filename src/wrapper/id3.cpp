@@ -58,7 +58,11 @@ namespace
 
   void id3v2_Tag_addFrame(ID3v2::Tag &t, ID3v2::Frame *f)
   {
+ #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 12)
     ID3v2::Frame *f_clone = ID3v2::FrameFactory::instance()->createFrame(f->render());
+ #else
+    ID3v2::Frame *f_clone = ID3v2::FrameFactory::instance()->createFrame(f->render(), t.header());
+ #endif
     t.addFrame(f_clone);
   }
 
@@ -71,7 +75,11 @@ namespace
   #define MF_OL(MF, MIN, MAX) \
   BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(MF##_overloads, MF, MIN, MAX);
 
+ #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 12)
   MF_OL(createFrame, 1, 2);
+ #else
+  MF_OL(createFrame, 2, 2);
+ #endif
   MF_OL(volumeAdjustmentIndex, 0, 1);
   MF_OL(volumeAdjustment, 0, 1);
   MF_OL(peakVolume, 0, 1);
@@ -121,15 +129,23 @@ void exposeID3()
   {
     typedef ID3v2::FrameFactory cl;
 
+ #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 12)
     ID3v2::Frame *(ID3v2::FrameFactory::*cf1)(const ByteVector &, bool) const
       = &cl::createFrame;
     ID3v2::Frame *(ID3v2::FrameFactory::*cf2)(const ByteVector &, TagLib::uint) const
+ #else
+    ID3v2::Frame *(ID3v2::FrameFactory::*cf)(const ByteVector &, const ID3v2::Header *) const
+ #endif
       = &cl::createFrame;
 
     class_<ID3v2::FrameFactory, boost::noncopyable>
       ("id3v2_FrameFactory", no_init)
+ #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 12)
       .def("createFrame", cf1, return_value_policy<manage_new_object>())
       .def("createFrame", cf2, createFrame_overloads()[return_value_policy<manage_new_object>()])
+ #else
+      .def("createFrame", cf, createFrame_overloads()[return_value_policy<manage_new_object>()])
+ #endif
       .def("instance", &cl::instance,
           return_value_policy<reference_existing_object>())
       .staticmethod("instance")
@@ -150,10 +166,18 @@ void exposeID3()
       .DEF_SIMPLE_METHOD(render)
 
       .def("headerSize",
+           #if (TAGLIB_MAJOR_VERSION == 1)
            (TagLib::uint (*)())
+           #else
+           (unsigned int (TagLib::ID3v2::Frame::*)() const)
+           #endif
            &ID3v2::Frame::headerSize)
       .def("headerSize",
-           (TagLib::uint (*)(TagLib::uint))
+           #if (TAGLIB_MAJOR_VERSION == 1)
+           (TagLib::uint (*)())
+           #else
+           (unsigned int (TagLib::ID3v2::Frame::*)() const)
+           #endif
            &ID3v2::Frame::headerSize)
       // MISSING: textDelimiter
       ;
@@ -210,7 +234,6 @@ void exposeID3()
     class_<cl, boost::noncopyable, bases<Tag> >("id3v2_Tag")
       .def("header", &ID3v2::Tag::header, return_internal_reference<>())
       .def("extendedHeader", &ID3v2::Tag::extendedHeader, return_internal_reference<>())
-      .def("footer", &ID3v2::Tag::footer, return_internal_reference<>())
 
       .def("frameListMap", &ID3v2::Tag::frameListMap, return_internal_reference<>())
       .def("frameList", fl1, return_internal_reference<>())
@@ -224,7 +247,11 @@ void exposeID3()
         // Commented out following comment at:
         // https://github.com/inducer/tagpy/commit/fb6d9a95f8ed1b0f347a82569a13e60a75c7e6d6
         // .DEF_OVERLOADED_METHOD(render, ByteVector (cl::*)() const)
+ #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 12)
         .DEF_OVERLOADED_METHOD(render, ByteVector (cl::*)(int) const)
+ #else
+        .DEF_OVERLOADED_METHOD(render, ByteVector (cl::*)(ID3v2::Version) const)
+ #endif
       #else
         .def("render", (ByteVector (cl::*)() const) &cl::render)
       #endif
@@ -323,7 +350,9 @@ void exposeID3()
       ("id3v2_RelativeVolumeFrame", init<const ByteVector &>())
       // MISSING: Empty constructor, gives symbol errors
       .def("channels", id3v2_rvf_channels)
+      #if (TAGLIB_MAJOR_VERSION == 1)
       .DEF_SIMPLE_METHOD(setChannelType)
+      #endif
       .DEF_OVERLOADED_METHOD(volumeAdjustmentIndex, short (cl::*)(cl::ChannelType) const)
       .DEF_OVERLOADED_METHOD(setVolumeAdjustmentIndex, void (cl::*)(short, cl::ChannelType))
       .DEF_OVERLOADED_METHOD(volumeAdjustment, float (cl::*)(cl::ChannelType) const)
@@ -423,11 +452,11 @@ void exposeID3()
        init<const char *, optional<bool, AudioProperties::ReadStyle> >())
       .def(init<const char *, ID3v2::FrameFactory *, optional<bool, AudioProperties::ReadStyle> >())
       .def("save",
-           #if (TAGPY_TAGLIB_HEX_VERSION >= 0x10800)
+	   #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 12)
              (bool (MPEG::File::*)(int, bool, int))
-           #else
-             (bool (MPEG::File::*)(int, bool))
-           #endif
+	   #else
+             (bool (MPEG::File::*)(int, TagLib::File::StripTags, TagLib::ID3v2::Version, TagLib::File::DuplicateTags))
+	   #endif
            &cl::save,
            save_overloads())
       .def("ID3v1Tag",
@@ -444,7 +473,9 @@ void exposeID3()
       .def("strip",
            (bool (cl::*)(int)) &cl::strip,
            strip_overloads())
+      #if (TAGLIB_MAJOR_VERSION == 1)
       .DEF_SIMPLE_METHOD(setID3v2FrameFactory)
+      #endif
       .DEF_SIMPLE_METHOD(firstFrameOffset)
       .DEF_SIMPLE_METHOD(nextFrameOffset)
       .DEF_SIMPLE_METHOD(previousFrameOffset)

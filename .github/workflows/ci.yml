@@ -13,7 +13,7 @@ jobs:
             matrix:
                 python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
                 # Least and most supported
-                taglib-version: ['1.9', 1.13.1]
+                taglib-version: [1.9.1, '1.10', 1.11.1, '1.12', 1.13.1, 2.0.2]
 
         runs-on: ubuntu-22.04
 
@@ -27,7 +27,7 @@ jobs:
             - name: Install dependencies
               run: |
                   make sync
-                  sudo apt-get install -y --no-install-recommends lcov
+                  sudo apt-get install -y --no-install-recommends lcov libutfcpp-dev
             - name: Run builder
               run: .venv/bin/python src/builder.py --python-version ${{ matrix.python-version }} --taglib-version ${{ matrix.taglib-version }}
             - name: Python Coveralls

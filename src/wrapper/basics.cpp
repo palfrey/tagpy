@@ -51,7 +51,7 @@ namespace
   {
       static PyObject *convert(ByteVector const& s)
         {
-          return PyUnicode_FromStringAndSize(s.data(), s.size());
+          return PyBytes_FromStringAndSize(s.data(), s.size());
         }
   };
 
@@ -73,25 +73,6 @@ namespace
   // -------------------------------------------------------------
   // Basics
   // -------------------------------------------------------------
-  struct TagWrap : Tag, wrapper<Tag>
-  {
-      String title() const { return this->get_override("title")(); }
-      String artist() const { return this->get_override("artist")(); }
-      String album() const { return this->get_override("album")(); }
-      String comment() const { return this->get_override("comment")(); }
-      String genre() const { return this->get_override("genre")(); }
-      uint year() const { return this->get_override("year")(); }
-      uint track() const { return this->get_override("track")(); }
-      void setTitle(const String &v) const { this->get_override("setTitle")(v); }
-      void setArtist(const String &v) const { this->get_override("setArtist")(v); }
-      void setAlbum(const String &v) const { this->get_override("setAlbum")(v); }
-      void setComment(const String &v) const { this->get_override("setComment")(v); }
-      void setGenre(const String &v) const { this->get_override("setGenre")(v); }
-      void setYear(uint i) const { this->get_override("setYear")(i); }
-      void setTrack(uint i) const { this->get_override("setTrack")(i); }
-  };
-
-
 
 
   struct AudioPropertiesWrap : AudioProperties, wrapper<AudioProperties>
@@ -125,10 +106,17 @@ void exposeID3();
 void exposeRest();
 
 
+#define STRINGIZE_NX(A) #A
+#define STRINGIZE(A) STRINGIZE_NX(A)
 
 
 BOOST_PYTHON_MODULE(_tagpy)
 {
+  // version info
+  scope().attr("version") = STRINGIZE(TAGLIB_MAJOR_VERSION) "." STRINGIZE(TAGLIB_MINOR_VERSION);
+  scope().attr("major_version") = TAGLIB_MAJOR_VERSION;
+  scope().attr("minor_version") = TAGLIB_MINOR_VERSION;
+
   // -------------------------------------------------------------
   // Infrastructure
   // -------------------------------------------------------------
@@ -151,7 +139,7 @@ BOOST_PYTHON_MODULE(_tagpy)
 
   {
     typedef Tag cl;
-    class_<TagWrap, boost::noncopyable>("Tag", no_init)
+    class_<TagWrap<cl>, boost::noncopyable>("Tag", no_init)
       .add_property("title", &cl::title, &cl::setTitle)
       .add_property("artist", &cl::artist, &cl::setArtist)
       .add_property("album", &cl::album, &cl::setAlbum)

@@ -6,7 +6,7 @@ import pathlib
 
 
 def test_deb_bug_438556():
-    fileref = tagpy.FileRef(str(pathlib.Path(__file__).parent.joinpath("la.mp3")))
+    fileref = tagpy.FileRef(pathlib.Path(__file__).parent.joinpath("la.mp3").as_posix())
     file = fileref.file()
     tag = file.ID3v2Tag(True)
     frame = tagpy.id3v2.UniqueFileIdentifierFrame("blah", "blah")

@@ -32,6 +32,10 @@
 #include <taglib/id3v1tag.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/wavfile.h>
+#include <taglib/mp4file.h>
+#include <taglib/mp4tag.h>
+#include <taglib/mp4coverart.h>
+#include <taglib/mp4item.h>
 
 #include "common.hpp"
 
@@ -66,11 +70,27 @@ namespace
   // -------------------------------------------------------------
   // MPC
   // -------------------------------------------------------------
+  #if (TAGLIB_MAJOR_VERSION == 1)
+  MF_OL(remove, 0, 1);
+  #endif
   //MF_OL(ID3v1Tag, 0, 1);
   MF_OL(APETag, 0, 1);
 
   // WAV
   MF_OL(strip, 0, 1);
+
+  #if (TAGLIB_MAJOR_VERSION == 2) || (TAGLIB_MINOR_VERSION >= 10)
+  // MP4
+  TagLib::MP4::CoverArtList mp4_Tag_GetCovers(TagLib::MP4::Tag &t) {
+    if (!t.contains("covr")) {
+      return {};
+    }
+    return t.item("covr").toCoverArtList();
+  }
+  void mp4_Tag_SetCovers(TagLib::MP4::Tag &t, TagLib::MP4::CoverArtList& l) {
+    return t.setItem("covr", l);
+  }
+  #endif
 }
 
 
@@ -272,6 +292,59 @@ void exposeRest()
       #if (TAGPY_TAGLIB_HEX_VERSION >= 0x11100)
       .DEF_OVERLOADED_METHOD(strip, void (cl::*)(TagLib::RIFF::WAV::File::TagTypes) const)
       #endif
+      ;
+  }
+
+    /// MP4
+  #if (TAGLIB_MAJOR_VERSION == 2) || (TAGLIB_MINOR_VERSION >= 13)
+  enum_<TagLib::MP4::File::TagTypes>("mp4_TagTypes")
+    .value("NoTags", TagLib::MP4::File::NoTags)
+    .value("MP4", TagLib::MP4::File::MP4)
+    .value("AllTags", TagLib::MP4::File::AllTags)
+    ;
+  #endif
+  {
+    typedef TagLib::MP4::File cl;
+    class_<cl, bases<File>, boost::noncopyable>
+      ("mp4_File", init<const char *, optional<bool, AudioProperties::ReadStyle> >())
+      .def("tag",
+           (MP4::Tag *(cl::*)() const)
+           &cl::tag,
+           return_internal_reference<>())
+      ;
+  }
+  enum_<TagLib::MP4::CoverArt::Format>("mp4_CoverArtFormats")
+    .value("JPEG", TagLib::MP4::CoverArt::JPEG)
+    .value("PNG", TagLib::MP4::CoverArt::PNG)
+    .value("BMP", TagLib::MP4::CoverArt::BMP)
+    .value("GIF", TagLib::MP4::CoverArt::GIF)
+    .value("Unknown", TagLib::MP4::CoverArt::Unknown)
+    ;
+  {
+    typedef TagLib::MP4::CoverArt cl;
+    class_<cl>
+      ("mp4_CoverArt", init<TagLib::MP4::CoverArt::Format, const ByteVector &>())
+      .DEF_SIMPLE_METHOD(format)
+      .DEF_SIMPLE_METHOD(data)
+      ;
+  }
+  exposeList<TagLib::MP4::CoverArt>("mp4_CoverArtList");
+  {
+    typedef TagLib::MP4::Tag cl;
+    class_<TagWrap<cl>, boost::noncopyable>("Tag", no_init)
+      .add_property("title", &cl::title, &cl::setTitle)
+      .add_property("artist", &cl::artist, &cl::setArtist)
+      .add_property("album", &cl::album, &cl::setAlbum)
+      .add_property("comment", &cl::comment, &cl::setComment)
+      .add_property("genre", &cl::genre, &cl::setGenre)
+      .add_property("year", &cl::year, &cl::setYear)
+      .add_property("track", &cl::track, &cl::setTrack)
+      #if (TAGLIB_MAJOR_VERSION == 2) || (TAGLIB_MINOR_VERSION >= 10)
+      .add_property("covers", &mp4_Tag_GetCovers, &mp4_Tag_SetCovers)
+      #endif
+      .DEF_VIRTUAL_METHOD(isEmpty)
+      .DEF_SIMPLE_METHOD(duplicate)
+      .staticmethod("duplicate")
       ;
   }
 

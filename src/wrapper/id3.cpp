@@ -234,6 +234,9 @@ void exposeID3()
     class_<cl, boost::noncopyable, bases<Tag> >("id3v2_Tag")
       .def("header", &ID3v2::Tag::header, return_internal_reference<>())
       .def("extendedHeader", &ID3v2::Tag::extendedHeader, return_internal_reference<>())
+      #if (TAGLIB_MAJOR_VERSION == 1)
+      .def("footer", &ID3v2::Tag::footer, return_internal_reference<>())
+      #endif
 
       .def("frameListMap", &ID3v2::Tag::frameListMap, return_internal_reference<>())
       .def("frameList", fl1, return_internal_reference<>())

@@ -48,16 +48,14 @@ using namespace std;
   add_property(#NAME, &cl::NAME)
 
 
-
-
 #define TAGPY_TAGLIB_HEX_VERSION \
   (TAGLIB_MAJOR_VERSION << 16) + \
   (TAGLIB_MINOR_VERSION << 8) + \
   (TAGLIB_PATCH_VERSION << 0)
 
-#if (TAGPY_TAGLIB_HEX_VERSION < 0x10400)
+#if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 9)
 #warning !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#warning TagPy is meant to wrap TagLib 1.4 and above.
+#warning TagPy is meant to wrap TagLib 1.9 and above.
 #warning !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #endif
 
@@ -221,3 +219,22 @@ namespace {
       ;
   }
 }
+
+template <class T>
+struct TagWrap : T, wrapper<T>
+{
+    String title() const { return this->get_override("title")(); }
+    String artist() const { return this->get_override("artist")(); }
+    String album() const { return this->get_override("album")(); }
+    String comment() const { return this->get_override("comment")(); }
+    String genre() const { return this->get_override("genre")(); }
+    unsigned int year() const { return this->get_override("year")(); }
+    unsigned int track() const { return this->get_override("track")(); }
+    void setTitle(const String &v) const { this->get_override("setTitle")(v); }
+    void setArtist(const String &v) const { this->get_override("setArtist")(v); }
+    void setAlbum(const String &v) const { this->get_override("setAlbum")(v); }
+    void setComment(const String &v) const { this->get_override("setComment")(v); }
+    void setGenre(const String &v) const { this->get_override("setGenre")(v); }
+    void setYear(unsigned int i) const { this->get_override("setYear")(i); }
+    void setTrack(unsigned int i) const { this->get_override("setTrack")(i); }
+};

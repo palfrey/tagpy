@@ -123,9 +123,10 @@ void exposeRest()
       .DEF_OVERLOADED_METHOD(render, ByteVector (cl::*)(bool) const)
       .DEF_SIMPLE_METHOD(pictureList)
       .DEF_SIMPLE_METHOD(removeAllPictures)
+      #if (TAGLIB_MAJOR_VERSION == 2) || (TAGLIB_MINOR_VERSION >= 11)
       .def("removePicture", &cl::removePicture)
       .def("addPicture", &cl::addPicture);
-
+      #endif
       ;
   }
 

@@ -1,4 +1,6 @@
 from pathlib import Path
+import shutil
+from tempfile import TemporaryDirectory
 import tagpy
 import tagpy.id3v2
 
@@ -36,19 +38,24 @@ def get_cover(f):
 
 
 def test_mp4():
-    current_folder = Path(__file__).parent
-    f1 = tagpy.FileRef(current_folder.joinpath("Caldhu-with-cover-art.mp3").as_posix())
-    f2 = tagpy.FileRef(current_folder.joinpath("Caldhu.mp4").as_posix())
-    t1 = f1.tag()
-    t2 = f2.tag()
-    t2.title = t1.title
-    t2.artist = t1.artist
-    t2.album = t1.album
-    t2.comment = t1.comment
-    t2.genre = t1.genre
-    t2.year = t1.year
-    t2.track = t1.track
-    c = tagpy.mp4.CoverArtList()
-    c.append(get_cover(f1))
-    t2.covers = c
-    f2.save()
+    with TemporaryDirectory() as tempdir:
+        current_folder = Path(__file__).parent
+        tempfile = Path(tempdir).joinpath("Caldhu.mp4")
+        shutil.copy(current_folder.joinpath("Caldhu.mp4"), tempfile)
+        f1 = tagpy.FileRef(
+            current_folder.joinpath("Caldhu-with-cover-art.mp3").as_posix()
+        )
+        f2 = tagpy.FileRef(tempfile.as_posix())
+        t1 = f1.tag()
+        t2 = f2.tag()
+        t2.title = t1.title
+        t2.artist = t1.artist
+        t2.album = t1.album
+        t2.comment = t1.comment
+        t2.genre = t1.genre
+        t2.year = t1.year
+        t2.track = t1.track
+        c = tagpy.mp4.CoverArtList()
+        c.append(get_cover(f1))
+        t2.covers = c
+        f2.save()

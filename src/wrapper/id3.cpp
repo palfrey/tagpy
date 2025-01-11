@@ -166,10 +166,18 @@ void exposeID3()
       .DEF_SIMPLE_METHOD(render)
 
       .def("headerSize",
-           (uint (*)())
+           #if (TAGLIB_MAJOR_VERSION == 1)
+           (TagLib::uint (*)())
+           #else
+           (unsigned int (TagLib::ID3v2::Frame::*)() const)
+           #endif
            &ID3v2::Frame::headerSize)
       .def("headerSize",
-           (uint (*)(uint))
+           #if (TAGLIB_MAJOR_VERSION == 1)
+           (TagLib::uint (*)())
+           #else
+           (unsigned int (TagLib::ID3v2::Frame::*)() const)
+           #endif
            &ID3v2::Frame::headerSize)
       // MISSING: textDelimiter
       ;

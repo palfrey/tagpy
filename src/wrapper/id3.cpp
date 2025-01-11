@@ -342,7 +342,9 @@ void exposeID3()
       ("id3v2_RelativeVolumeFrame", init<const ByteVector &>())
       // MISSING: Empty constructor, gives symbol errors
       .def("channels", id3v2_rvf_channels)
+      #if (TAGLIB_MAJOR_VERSION == 1)
       .DEF_SIMPLE_METHOD(setChannelType)
+      #endif
       .DEF_OVERLOADED_METHOD(volumeAdjustmentIndex, short (cl::*)(cl::ChannelType) const)
       .DEF_OVERLOADED_METHOD(setVolumeAdjustmentIndex, void (cl::*)(short, cl::ChannelType))
       .DEF_OVERLOADED_METHOD(volumeAdjustment, float (cl::*)(cl::ChannelType) const)
@@ -463,7 +465,9 @@ void exposeID3()
       .def("strip",
            (bool (cl::*)(int)) &cl::strip,
            strip_overloads())
+      #if (TAGLIB_MAJOR_VERSION == 1)
       .DEF_SIMPLE_METHOD(setID3v2FrameFactory)
+      #endif
       .DEF_SIMPLE_METHOD(firstFrameOffset)
       .DEF_SIMPLE_METHOD(nextFrameOffset)
       .DEF_SIMPLE_METHOD(previousFrameOffset)

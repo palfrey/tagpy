@@ -15,3 +15,4 @@ setuptools.pth
 coverage.lcov
 cpp.info
 wheelhouse/
+*.log

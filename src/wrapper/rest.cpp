@@ -93,9 +93,10 @@ namespace
   #endif
 }
 
-
-
-
+void addPictureWithOwnership(Ogg::XiphComment &cl, std::auto_ptr<TagLib::FLAC::Picture> picture) {
+  cl.addPicture(picture.get());
+  picture.release();
+}
 
 void exposeRest()
 {
@@ -125,7 +126,7 @@ void exposeRest()
       .DEF_SIMPLE_METHOD(removeAllPictures)
       #if (TAGLIB_MAJOR_VERSION == 2) || (TAGLIB_MINOR_VERSION >= 11)
       .def("removePicture", &cl::removePicture)
-      .def("addPicture", &cl::addPicture);
+      .def("addPicture", addPictureWithOwnership);
       #endif
       ;
   }
@@ -250,7 +251,7 @@ void exposeRest()
 
   {
     typedef TagLib::FLAC::Picture cl;
-    class_<cl, boost::noncopyable>
+    class_<cl, std::auto_ptr<cl>, boost::noncopyable>
       ("flac_Picture", init<const ByteVector &>())
       .DEF_SIMPLE_METHOD(type)
       .DEF_SIMPLE_METHOD(data)

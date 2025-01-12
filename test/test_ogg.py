@@ -3,15 +3,16 @@ import shutil
 from tempfile import TemporaryDirectory
 import tagpy
 import tagpy.id3v2
+from tagpy.ogg import flac
 
 
-def get_cover(f):
+def get_cover(f) -> tagpy.ogg.flac.Picture:
     tag = None
     if isinstance(f, tagpy.FileRef):
         tag = f.tag()
         f = f.file()
     covers = []
-    if hasattr(tag, "covers"):
+    if tag is not None and hasattr(tag, "covers"):
         covers = tag.covers
     elif hasattr(f, "ID3v2Tag"):
         covers = [
@@ -22,27 +23,20 @@ def get_cover(f):
     if covers == []:
         raise Exception("No covers found")
     cover = covers[0]
-    fmt = tagpy.mp4.CoverArtFormats.Unknown
-    if isinstance(cover, tagpy.mp4.CoverArt):
+    if isinstance(cover, flac.Picture):
         return cover
     else:
         mime = cover.mimeType().lower().strip()
-        if mime == "image/jpeg":
-            fmt = tagpy.mp4.CoverArtFormats.JPEG
-        elif mime == "image/png":
-            fmt = tagpy.mp4.CoverArtFormats.PNG
-        elif mime == "image/bmp":
-            fmt = tagpy.mp4.CoverArtFormats.BMP
-        elif mime == "image/gif":
-            fmt = tagpy.mp4.CoverArtFormats.GIF
-        return tagpy.mp4.CoverArt(fmt, cover.picture())
+        picture = flac.Picture(cover.picture())
+        picture.setMimeType(mime)
+        return picture
 
 
 def test_cover_and_tags():
     with TemporaryDirectory() as tempdir:
         current_folder = Path(__file__).parent
-        tempfile = Path(tempdir).joinpath("Caldhu.mp4")
-        shutil.copy(current_folder.joinpath("Caldhu.mp4"), tempfile)
+        tempfile = Path(tempdir).joinpath("la.ogg")
+        shutil.copy(current_folder.joinpath("la.ogg"), tempfile)
         f1 = tagpy.FileRef(
             current_folder.joinpath("Caldhu-with-cover-art.mp3").as_posix()
         )
@@ -56,7 +50,7 @@ def test_cover_and_tags():
         t2.genre = t1.genre
         t2.year = t1.year
         t2.track = t1.track
-        c = tagpy.mp4.CoverArtList()
-        c.append(get_cover(f1))
-        t2.covers = c
+        if tagpy.major_version >= 2 or tagpy.minor_version >= 11:
+            cover = get_cover(f1)
+            t2.addPicture(cover)
         f2.save()

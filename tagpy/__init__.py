@@ -19,7 +19,16 @@
 # SOFTWARE.
 
 
-from _tagpy import File, ReadStyle
+from typing import cast
+from _tagpy import (
+    File,
+    ReadStyle,
+    minor_version as _minor_version,
+    major_version as _major_version,
+)
+
+major_version = cast(int, _major_version)
+minor_version = cast(int, _minor_version)
 
 
 class FileTypeResolver(object):

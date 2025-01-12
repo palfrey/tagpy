@@ -10,6 +10,7 @@ parser = ArgumentParser()
 parser.add_argument("--python-version", default="3.12")
 parser.add_argument("--taglib-version", default="1.13.1")
 parser.add_argument("--boost-version", default="1.87.0")
+parser.add_argument("--with-gdb", action="store_true")
 
 args = parser.parse_args()
 
@@ -128,15 +129,21 @@ subprocess.check_call(
     ["uv", "pip", "install", "-r", "requirements-dev.txt"], cwd=root_folder, env=my_env
 )
 subprocess.check_call([pip_path, "install", "."], cwd=root_folder, env=my_env)
+command: list[str] = [
+    venv_bin_folder.joinpath("python").as_posix(),
+    "-m",
+    "pytest",
+    "-vvv",
+    "--cov=tagpy",
+    "--cov-report=term-missing",
+    "--cov-report=lcov",
+    "--cov-fail-under=50",
+]
+if args.with_gdb:
+    command = ["gdb", "--args"] + command
+print(" ".join(command))
 subprocess.check_call(
-    [
-        venv_bin_folder.joinpath("pytest"),
-        "-vvv",
-        "--cov=tagpy",
-        "--cov-report=term-missing",
-        "--cov-report=lcov",
-        "--cov-fail-under=50",
-    ],
+    command,
     cwd=root_folder,
     env=my_env,
 )

@@ -51,6 +51,24 @@ jobs:
                   parallel: true
                   flag-name: CPP-${{ matrix.python-version }}
 
+    cpp-23:
+        runs-on: ubuntu-24.04
+        steps:
+            - uses: actions/checkout@v4
+            - name: Set up Python 3.13
+              uses: actions/setup-python@v5
+              with:
+                  python-version: 3.13
+            - uses: asdf-vm/actions/install@v3
+            - name: Install dependencies
+              run: |
+                  make sync
+                  sudo apt-get install -y --no-install-recommends lcov libutfcpp-dev
+            - name: Run builder
+              run: .venv/bin/python src/builder.py --python-version 3.13 --taglib-version 2.0.2
+              env:
+                  CPPFLAGS: -std=c++23
+
     integration:
         runs-on: ubuntu-24.04
         strategy:
@@ -98,7 +116,7 @@ jobs:
             - run: make manylinux2014
 
     finish:
-        needs: [test, integration, manylinux]
+        needs: [test, integration, manylinux, cpp-23]
         runs-on: ubuntu-24.04
         steps:
             - name: Coveralls Finished

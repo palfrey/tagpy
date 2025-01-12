@@ -47,13 +47,14 @@ using namespace std;
 #define ADD_RO_PROPERTY(NAME) \
   add_property(#NAME, &cl::NAME)
 
+#define CHECK_VERSION(MAJOR, MINOR, PATCH) \
+  (MAJOR << 16) + \
+  (MINOR << 8) + \
+  (PATCH << 0)
 
-#define TAGPY_TAGLIB_HEX_VERSION \
-  (TAGLIB_MAJOR_VERSION << 16) + \
-  (TAGLIB_MINOR_VERSION << 8) + \
-  (TAGLIB_PATCH_VERSION << 0)
+#define TAGLIB_HEX_VERSION CHECK_VERSION(TAGLIB_MAJOR_VERSION, TAGLIB_MINOR_VERSION, TAGLIB_PATCH_VERSION)
 
-#if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 9)
+#if CHECK_VERSION(1,9,0) < TAGLIB_HEX_VERSION
 #warning !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #warning TagPy is meant to wrap TagLib 1.9 and above.
 #warning !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

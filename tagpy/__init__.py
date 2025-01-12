@@ -20,15 +20,9 @@
 
 
 from typing import cast
-from _tagpy import (
-    File,
-    ReadStyle,
-    minor_version as _minor_version,
-    major_version as _major_version,
-)
+from _tagpy import File, ReadStyle, version as _version
 
-major_version = cast(int, _major_version)
-minor_version = cast(int, _minor_version)
+version = cast(str, _version)
 
 
 class FileTypeResolver(object):

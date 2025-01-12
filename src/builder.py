@@ -113,9 +113,10 @@ if not pip_path.exists():
     )
 
 my_env = os.environ.copy()
-my_env["VIRTUAL_ENV"] = venv_folder
+my_env["VIRTUAL_ENV"] = venv_folder.as_posix()
 my_env["CPPFLAGS"] = (
-    f"-coverage -I{boost_version_folder}/include"
+    my_env.get("CPPFLAGS", "")
+    + f" -coverage -I{boost_version_folder}/include"
     + f" -I{taglib_build_version_folder}/include"
 )
 my_env["LDFLAGS"] = f"-L{boost_version_folder}/lib -L{taglib_build_version_folder}/lib"

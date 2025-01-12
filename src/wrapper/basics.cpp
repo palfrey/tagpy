@@ -114,8 +114,6 @@ BOOST_PYTHON_MODULE(_tagpy)
 {
   // version info
   scope().attr("version") = STRINGIZE(TAGLIB_MAJOR_VERSION) "." STRINGIZE(TAGLIB_MINOR_VERSION);
-  scope().attr("major_version") = TAGLIB_MAJOR_VERSION;
-  scope().attr("minor_version") = TAGLIB_MINOR_VERSION;
 
   // -------------------------------------------------------------
   // Infrastructure
@@ -157,7 +155,7 @@ BOOST_PYTHON_MODULE(_tagpy)
   {
     typedef AudioProperties cl;
     class_<AudioPropertiesWrap, boost::noncopyable>("AudioProperties", no_init)
-      #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 10)
+      #if TAGLIB_HEX_VERSION < CHECK_VERSION(1,10,0)
       .add_property("length", &cl::length)
       #else
       .add_property("length", &cl::lengthInSeconds)

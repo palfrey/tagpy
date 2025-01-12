@@ -4,6 +4,7 @@ from tempfile import TemporaryDirectory
 import tagpy
 import tagpy.id3v2
 from tagpy.ogg import flac
+from packaging.version import Version
 
 
 def get_cover(f) -> tagpy.ogg.flac.Picture:
@@ -50,7 +51,7 @@ def test_cover_and_tags():
         t2.genre = t1.genre
         t2.year = t1.year
         t2.track = t1.track
-        if tagpy.major_version >= 2 or tagpy.minor_version >= 11:
+        if Version(tagpy.version) >= Version("1.11"):
             cover = get_cover(f1)
             t2.addPicture(cover)
         f2.save()

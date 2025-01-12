@@ -92,7 +92,7 @@ pre-commit==4.0.1
     # via -r requirements-dev.in
 pycparser==2.22
     # via cffi
-pygments==2.18.0
+pygments==2.19.1
     # via
     #   readme-renderer
     #   rich
@@ -120,7 +120,7 @@ rich==13.9.4
     # via twine
 secretstorage==3.3.3
     # via keyring
-setuptools==75.7.0
+setuptools==75.8.0
     # via -r requirements-dev.in
 tomli==2.2.1
     # via

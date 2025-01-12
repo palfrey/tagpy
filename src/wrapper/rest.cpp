@@ -55,7 +55,7 @@ namespace
   // Ogg
   // -------------------------------------------------------------
   MF_OL(addField, 2, 3);
-  #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 11)
+  #if TAGLIB_HEX_VERSION < CHECK_VERSION(1,11,0)
   MF_OL(removeField, 1, 2);
   #else
   MF_OL(removeFields, 1, 2);
@@ -79,7 +79,7 @@ namespace
   // WAV
   MF_OL(strip, 0, 1);
 
-  #if (TAGLIB_MAJOR_VERSION == 2) || (TAGLIB_MINOR_VERSION >= 10)
+  #if TAGLIB_HEX_VERSION >= CHECK_VERSION(1,10,0)
   // MP4
   TagLib::MP4::CoverArtList mp4_Tag_GetCovers(TagLib::MP4::Tag &t) {
     if (!t.contains("covr")) {
@@ -93,7 +93,7 @@ namespace
   #endif
 }
 
-#if (TAGLIB_MAJOR_VERSION == 2) || (TAGLIB_MINOR_VERSION >= 11)
+#if TAGLIB_HEX_VERSION >= CHECK_VERSION(1,11,0)
 void addPictureWithOwnership(Ogg::XiphComment &cl, std::auto_ptr<TagLib::FLAC::Picture> picture) {
   cl.addPicture(picture.get());
   picture.release();
@@ -116,7 +116,7 @@ void exposeRest()
            return_internal_reference<>())
       .DEF_SIMPLE_METHOD(vendorID)
       .DEF_OVERLOADED_METHOD(addField, void (cl::*)(const String &, const String &, bool))
-      #if (TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION < 11)
+      #if TAGLIB_HEX_VERSION < CHECK_VERSION(1,11,0)
       .DEF_OVERLOADED_METHOD(removeField, void (cl::*)(const String &, const String &))
       .DEF_OVERLOADED_METHOD(removeField, void (cl::*)(const String &, const String &))
       #else
@@ -124,7 +124,7 @@ void exposeRest()
       .DEF_OVERLOADED_METHOD(removeFields, void (cl::*)(const String &, const String &))
       #endif
       .DEF_OVERLOADED_METHOD(render, ByteVector (cl::*)(bool) const)
-      #if (TAGLIB_MAJOR_VERSION == 2) || (TAGLIB_MINOR_VERSION >= 11)
+      #if TAGLIB_HEX_VERSION >= CHECK_VERSION(1,11,0)
       .DEF_SIMPLE_METHOD(pictureList)
       .DEF_SIMPLE_METHOD(removeAllPictures)
       .def("removePicture", &cl::removePicture)
@@ -344,7 +344,7 @@ void exposeRest()
   }
 
     /// MP4
-  #if (TAGLIB_MAJOR_VERSION == 2) || (TAGLIB_MINOR_VERSION >= 13)
+  #if TAGLIB_HEX_VERSION >= CHECK_VERSION(1,13,0)
   enum_<TagLib::MP4::File::TagTypes>("mp4_TagTypes")
     .value("NoTags", TagLib::MP4::File::NoTags)
     .value("MP4", TagLib::MP4::File::MP4)
@@ -387,7 +387,7 @@ void exposeRest()
       .add_property("genre", &cl::genre, &cl::setGenre)
       .add_property("year", &cl::year, &cl::setYear)
       .add_property("track", &cl::track, &cl::setTrack)
-      #if (TAGLIB_MAJOR_VERSION == 2) || (TAGLIB_MINOR_VERSION >= 10)
+      #if TAGLIB_HEX_VERSION >= CHECK_VERSION(1,10,0)
       .add_property("covers", &mp4_Tag_GetCovers, &mp4_Tag_SetCovers)
       #endif
       .DEF_VIRTUAL_METHOD(isEmpty)

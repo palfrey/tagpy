@@ -122,9 +122,9 @@ void exposeRest()
       .DEF_OVERLOADED_METHOD(removeFields, void (cl::*)(const String &, const String &))
       #endif
       .DEF_OVERLOADED_METHOD(render, ByteVector (cl::*)(bool) const)
+      #if (TAGLIB_MAJOR_VERSION == 2) || (TAGLIB_MINOR_VERSION >= 11)
       .DEF_SIMPLE_METHOD(pictureList)
       .DEF_SIMPLE_METHOD(removeAllPictures)
-      #if (TAGLIB_MAJOR_VERSION == 2) || (TAGLIB_MINOR_VERSION >= 11)
       .def("removePicture", &cl::removePicture)
       .def("addPicture", addPictureWithOwnership);
       #endif

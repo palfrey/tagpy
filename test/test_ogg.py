@@ -50,7 +50,7 @@ def test_cover_and_tags():
         t2.genre = t1.genre
         t2.year = t1.year
         t2.track = t1.track
-        cover = get_cover(f1)
-        print(cover)
-        t2.addPicture(cover)
+        if tagpy.major_version >= 2 or tagpy.minor_version >= 11:
+            cover = get_cover(f1)
+            t2.addPicture(cover)
         f2.save()

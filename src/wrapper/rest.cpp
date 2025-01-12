@@ -93,10 +93,12 @@ namespace
   #endif
 }
 
+#if (TAGLIB_MAJOR_VERSION == 2) || (TAGLIB_MINOR_VERSION >= 11)
 void addPictureWithOwnership(Ogg::XiphComment &cl, std::auto_ptr<TagLib::FLAC::Picture> picture) {
   cl.addPicture(picture.get());
   picture.release();
 }
+#endif
 
 void exposeRest()
 {

@@ -15,7 +15,7 @@ jobs:
                 # Least and most supported
                 taglib-version: [1.9.1, '1.10', 1.11.1, '1.12', 1.13.1, 2.0.2]
 
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-24.04
 
         steps:
             - uses: actions/checkout@v4
@@ -40,7 +40,8 @@ jobs:
             - name: LCOV
               run: |
                   lcov --version
-                  lcov --directory build --output-file cpp.info --capture --exclude "/usr/include/*" --exclude "/opt/hostedtoolcache/*" --exclude "/home/runner/work/tagpy/tagpy/build/boost-*" --exclude "/home/runner/work/tagpy/tagpy/build/taglib-*"
+                  # FIXME: ignore errors is due to https://github.com/linux-test-project/lcov/issues/341
+                  lcov --directory build --output-file cpp.info --capture --exclude "/usr/include/*" --exclude "/opt/hostedtoolcache/*" --exclude "/home/runner/work/tagpy/tagpy/build/boost-*" --exclude "/home/runner/work/tagpy/tagpy/build/taglib-*" --ignore-errors mismatch
                   lcov --list cpp.info
             - name: C++ Coveralls
               uses: coverallsapp/github-action@master
@@ -51,7 +52,7 @@ jobs:
                   flag-name: CPP-${{ matrix.python-version }}
 
     integration:
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-24.04
         strategy:
             matrix:
                 os: [fedora-35, fedora-42, ubuntu-22.04, ubuntu-24.04, alpine-3.17, alpine-3.21, manylinux_2_28]
@@ -90,7 +91,7 @@ jobs:
                   mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
     manylinux:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-24.04
         name: Test Manylinux builds
         steps:
             - uses: actions/checkout@v4
@@ -98,7 +99,7 @@ jobs:
 
     finish:
         needs: [test, integration, manylinux]
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-24.04
         steps:
             - name: Coveralls Finished
               uses: coverallsapp/github-action@master

@@ -28,6 +28,11 @@ jobs:
               run: |
                   make sync
                   sudo apt-get install -y --no-install-recommends lcov libutfcpp-dev
+            - name: Builder cache
+              uses: actions/cache@v4
+              with:
+                  path: build/*.tar.gz
+                  key: builder-py${{ matrix.python-version }}-taglib${{ matrix.taglib-version }}
             - name: Run builder
               run: .venv/bin/python src/builder.py --python-version ${{ matrix.python-version }} --taglib-version ${{ matrix.taglib-version }}
             - name: Python Coveralls

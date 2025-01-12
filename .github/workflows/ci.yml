@@ -18,7 +18,7 @@ jobs:
         runs-on: ubuntu-22.04
 
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - name: Set up Python ${{ matrix.python-version }}
               uses: actions/setup-python@v4
               with:
@@ -57,7 +57,7 @@ jobs:
                 os: [fedora-35, fedora-42, ubuntu-22.04, ubuntu-24.04, alpine-3.17, alpine-3.21, manylinux_2_28]
         name: Build ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - name: Set up Docker Buildx
               id: buildx
               uses: docker/setup-buildx-action@master
@@ -93,7 +93,7 @@ jobs:
         runs-on: ubuntu-latest
         name: Test Manylinux builds
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - run: make manylinux2014
 
     finish:

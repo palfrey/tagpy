@@ -20,8 +20,10 @@
 
 
 import _tagpy
+import tagpy
+from packaging.version import Version
 
-if _tagpy.major_version >= 2 or _tagpy.minor_version >= 13:
+if Version(tagpy.version) >= Version("1.13"):
     TagTypes = _tagpy.mp4_TagTypes
 
 File = _tagpy.mp4_File

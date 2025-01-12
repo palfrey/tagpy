@@ -81,6 +81,7 @@ def main():
         url="https://github.com/palfrey/tagpy",
         packages=["tagpy", "tagpy.ogg"],
         python_requires=">=3.9, <4",
+        install_requires=["packaging >= 14.0"],
         ext_modules=[
             Extension(
                 "_tagpy",

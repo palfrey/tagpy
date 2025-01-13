@@ -3,7 +3,7 @@ manylinux2014:
 		--rm \
 		-v `pwd`:/src \
 		--workdir /src \
-		registry.gitlab.com/bjmuld/manylinux-boost/manylinux2014_x86_64 \
+		quay.io/pypa/manylinux_2_34_x86_64 \
 		./build-manylinux.sh
 
 manylinux2014-sh:
@@ -12,7 +12,7 @@ manylinux2014-sh:
 		-it \
 		-v `pwd`:/src \
 		--workdir /src \
-		registry.gitlab.com/bjmuld/manylinux-boost/manylinux2014_x86_64 \
+		quay.io/pypa/manylinux_2_34_x86_64 \
 		bash
 
 requirements-dev.txt: requirements-dev.in .tool-versions
@@ -23,3 +23,12 @@ requirements-dev.txt: requirements-dev.in .tool-versions
 
 sync: requirements-dev.txt .venv/bin/python
 	uv pip sync requirements-dev.txt
+
+testpypi: sync
+	.venv/bin/twine upload -r testpypi wheelhouse/*
+
+pypi: sync
+	.venv/bin/twine upload wheelhouse/*
+
+pre-commit: sync
+	.venv/bin/pre-commit run -a

@@ -2,10 +2,11 @@
 
 set -eux -o pipefail
 
-yum install -y taglib-devel
+yum install -y utf8cpp-devel
 
-for ver in {7..9}
+for ver in {9..13}
 do
-    python3.$ver -u setup.py bdist_wheel
-    auditwheel repair ./dist/tagpy-*-cp3$ver* # Note not the full name as some have the "m" suffix
+    if [ ! -f wheelhouse/tagpy-*-cp3$ver* ]; then
+        python3.10 ./src/builder.py --python-version 3.$ver --taglib-version=2.0.2 --build-wheel
+    fi
 done

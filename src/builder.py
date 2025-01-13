@@ -11,6 +11,15 @@ parser.add_argument("--python-version", default="3.12")
 parser.add_argument("--taglib-version", default="1.13.1")
 parser.add_argument("--boost-version", default="1.87.0")
 parser.add_argument("--with-gdb", action="store_true")
+parser.add_argument("--build-wheel", action="store_true")
+
+wheel_version = (
+    Path(__file__)
+    .parent.parent.joinpath("tagpy", "__version__.txt")
+    .open()
+    .read()
+    .strip()
+)
 
 args = parser.parse_args()
 
@@ -31,12 +40,17 @@ if not manifest_path.exists():
 else:
     manifest = json.load(manifest_path.open())
 
+available_versions = set([v["version"] for v in manifest])
+if args.boost_version not in available_versions:
+    raise Exception(
+        f"Can't find {args.boost_version}. Available: {sorted(available_versions)}"
+    )
 versioned_manifest = [v for v in manifest if v["version"] == args.boost_version][0]
-files = [
-    f
-    for f in versioned_manifest["files"]
-    if f["platform"] == "linux" and f["platform_version"] == "22.04"
-][0]
+files = sorted(
+    [f for f in versioned_manifest["files"] if f["platform"] == "linux"],
+    key=lambda f: f["platform_version"],
+    reverse=True,
+)[0]
 
 boost_path = build_folder.joinpath(files["filename"])
 
@@ -103,7 +117,7 @@ if not taglib_build_version_folder.exists():
 
 venv_folder = build_folder.joinpath(f"venv-{args.python_version}")
 if not venv_folder.exists():
-    subprocess.check_call(["uv", "venv", venv_folder])
+    subprocess.check_call(["uv", "venv", "--python", args.python_version, venv_folder])
 
 venv_bin_folder = venv_folder.joinpath("bin")
 pip_path = venv_bin_folder.joinpath("pip3")
@@ -119,8 +133,13 @@ my_env["CPPFLAGS"] = (
     + f" -coverage -I{boost_version_folder}/include"
     + f" -I{taglib_build_version_folder}/include"
 )
-my_env["LDFLAGS"] = f"-L{boost_version_folder}/lib -L{taglib_build_version_folder}/lib"
-extra_library_paths = f"{boost_version_folder}/lib:{taglib_build_version_folder}/lib"
+my_env["LDFLAGS"] = ""
+extra_library_paths_list = []
+for folder in [boost_version_folder, taglib_build_version_folder]:
+    my_env["LDFLAGS"] += f" -L{folder}/lib -L{folder}/lib64"
+    extra_library_paths_list.append(f"{folder}/lib")
+    extra_library_paths_list.append(f"{folder}/lib64")
+extra_library_paths = ":".join(extra_library_paths_list)
 if "LD_LIBRARY_PATH" in my_env:
     my_env["LD_LIBRARY_PATH"] += f":{extra_library_paths}"
 else:
@@ -148,3 +167,22 @@ subprocess.check_call(
     cwd=root_folder,
     env=my_env,
 )
+
+if args.build_wheel:
+    subprocess.check_call(
+        [venv_bin_folder.joinpath("python").as_posix(), "-m", "build"],
+        cwd=root_folder,
+        env=my_env,
+    )
+
+    compact_python_version = args.python_version.replace(".", "")
+
+    subprocess.check_call(
+        [
+            "auditwheel",
+            "repair",
+            f"dist/tagpy-{wheel_version}-cp{compact_python_version}-cp{compact_python_version}-linux_x86_64.whl",
+        ],
+        cwd=root_folder,
+        env=my_env,
+    )

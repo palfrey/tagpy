@@ -2,7 +2,7 @@
 # -*- coding: latin-1 -*-
 
 # Copyright (c) 2006-2008 Andreas Kloeckner, Christoph Burgmer
-# Copyright (c) 2022 Tom Parker-Shemilt
+# Copyright (c) 2022-2025 Tom Parker-Shemilt
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -55,7 +55,7 @@ def main():
 
     setup(
         name="tagpy",
-        version="2022.1",
+        version="2025.1",
         description="Python Bindings for TagLib",
         long_description=open("README.md", encoding="utf-8").read(),
         long_description_content_type="text/markdown",

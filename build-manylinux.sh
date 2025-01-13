@@ -2,6 +2,8 @@
 
 set -eux -o pipefail
 
+python3.10 -m pip install -r requirements-dev.txt
+
 yum install -y utf8cpp-devel
 
 for ver in {9..13}

@@ -54,7 +54,7 @@ using namespace std;
 
 #define TAGLIB_HEX_VERSION CHECK_VERSION(TAGLIB_MAJOR_VERSION, TAGLIB_MINOR_VERSION, TAGLIB_PATCH_VERSION)
 
-#if CHECK_VERSION(1,9,0) < TAGLIB_HEX_VERSION
+#if TAGLIB_HEX_VERSION < CHECK_VERSION(1,9,0)
 #warning !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #warning TagPy is meant to wrap TagLib 1.9 and above.
 #warning !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

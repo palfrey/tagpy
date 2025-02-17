@@ -32,6 +32,8 @@ filelock==3.16.1
     # via
     #   cibuildwheel
     #   virtualenv
+id==1.5.0
+    # via twine
 identify==2.6.5
     # via pre-commit
 idna==3.10
@@ -69,15 +71,13 @@ packaging==24.2
     #   dependency-groups
     #   pytest
     #   twine
-pkginfo==1.12.0
-    # via twine
 platformdirs==4.3.6
     # via
     #   cibuildwheel
     #   virtualenv
 pluggy==1.5.0
     # via pytest
-pre-commit==4.0.1
+pre-commit==4.1.0
     # via -r requirements-dev.in
 pycparser==2.22
     # via cffi
@@ -99,6 +99,7 @@ readme-renderer==44.0
     # via twine
 requests==2.32.3
     # via
+    #   id
     #   requests-toolbelt
     #   twine
 requests-toolbelt==1.0.0
@@ -109,7 +110,7 @@ rich==13.9.4
     # via twine
 secretstorage==3.3.3
     # via keyring
-twine==6.0.1
+twine==6.1.0
     # via -r requirements-dev.in
 urllib3==2.3.0
     # via

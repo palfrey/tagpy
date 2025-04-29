@@ -73,6 +73,7 @@ class FileRef(object):
     def _getExtToModule():
         import tagpy.ogg.vorbis
         import tagpy.ogg.flac
+        import tagpy.ogg.opus
         import tagpy.mpeg
         import tagpy.mp4
         import tagpy.flac
@@ -90,6 +91,7 @@ class FileRef(object):
             "wav": tagpy.wav,
             "mp4": tagpy.mp4,
             "m4a": tagpy.mp4,
+            "opus": tagpy.ogg.opus,
             # ".wv": tagpy.wavpack,
             # ".spx": tagpy.ogg.speex,
             # ".tta": tagpy.trueaudio,

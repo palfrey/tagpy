@@ -36,6 +36,7 @@
 #include <taglib/mp4tag.h>
 #include <taglib/mp4coverart.h>
 #include <taglib/mp4item.h>
+#include <taglib/opusfile.h>
 
 #include "common.hpp"
 
@@ -154,6 +155,13 @@ void exposeRest()
     typedef Ogg::Vorbis::File cl;
     class_<cl, bases<Ogg::File>, boost::noncopyable>
       ("ogg_vorbis_File", init<const char *, boost::python::optional<bool, AudioProperties::ReadStyle> >())
+      ;
+  }
+
+  {
+    typedef Ogg::Opus::File cl;
+    class_<cl, bases<Ogg::File>, boost::noncopyable>
+      ("ogg_opus_File", init<const char *, boost::python::optional<bool, AudioProperties::ReadStyle> >())
       ;
   }
 

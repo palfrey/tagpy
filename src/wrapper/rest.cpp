@@ -101,6 +101,16 @@ void addPictureWithOwnership(Ogg::XiphComment &cl, std::auto_ptr<TagLib::FLAC::P
 }
 #endif
 
+void flacAddPictureWithOwnership(FLAC::File &cl, std::auto_ptr<TagLib::FLAC::Picture> picture) {
+  cl.addPicture(picture.get());
+  picture.release();
+}
+
+void flacAddPictureCopy(FLAC::File &cl, TagLib::FLAC::Picture *picture) {
+  TagLib::FLAC::Picture *picture_copy = new TagLib::FLAC::Picture(picture->render());
+  cl.addPicture(picture_copy);
+}
+
 void exposeRest()
 {
   // -------------------------------------------------------------
@@ -309,6 +319,13 @@ void exposeRest()
            (Ogg::XiphComment *(FLAC::File::*)(bool))
            &FLAC::File::xiphComment,
            xiphComment_overloads()[return_internal_reference<>()])
+      .DEF_SIMPLE_METHOD(pictureList)
+      .DEF_SIMPLE_METHOD(removePictures)
+      .DEF_SIMPLE_METHOD(removePicture)
+      // For existing picture objects from other FLAC files
+      .def("addPicture", flacAddPictureCopy)
+      // For freshly created Picture objects
+      .def("addPicture", flacAddPictureWithOwnership)
       ;
   }
 

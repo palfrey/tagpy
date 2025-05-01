@@ -29,6 +29,7 @@ def get_cover(f) -> tagpy.ogg.flac.Picture:
     else:
         mime = cover.mimeType().lower().strip()
         picture = flac.Picture(cover.picture())
+        assert len(picture.data()) > 0
         picture.setMimeType(mime)
         return picture
 

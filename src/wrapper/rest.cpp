@@ -267,8 +267,8 @@ void exposeRest()
       .DEF_SIMPLE_METHOD(data)
       .DEF_SIMPLE_METHOD(setData)
       .DEF_SIMPLE_METHOD(mimeType)
-      .def("setType", &cl::setType)
-      .def("setMimeType", &cl::setMimeType);
+      .DEF_SIMPLE_METHOD(setType)
+      .DEF_SIMPLE_METHOD(setMimeType);
       ;
 
   }

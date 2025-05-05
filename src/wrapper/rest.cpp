@@ -101,6 +101,16 @@ void addPictureWithOwnership(Ogg::XiphComment &cl, std::auto_ptr<TagLib::FLAC::P
 }
 #endif
 
+void flacAddPictureWithOwnership(FLAC::File &cl, std::auto_ptr<TagLib::FLAC::Picture> picture) {
+  cl.addPicture(picture.get());
+  picture.release();
+}
+
+void flacAddPictureCopy(FLAC::File &cl, TagLib::FLAC::Picture *picture) {
+  TagLib::FLAC::Picture *picture_copy = new TagLib::FLAC::Picture(picture->render());
+  cl.addPicture(picture_copy);
+}
+
 void exposeRest()
 {
   // -------------------------------------------------------------
@@ -262,12 +272,30 @@ void exposeRest()
   {
     typedef TagLib::FLAC::Picture cl;
     class_<cl, std::auto_ptr<cl>, boost::noncopyable>
-      ("flac_Picture", init<const ByteVector &>())
+      ("flac_Picture", init<>())
       .DEF_SIMPLE_METHOD(type)
+      .DEF_SIMPLE_METHOD(setType)
+
       .DEF_SIMPLE_METHOD(data)
+      .DEF_SIMPLE_METHOD(setData)
+
       .DEF_SIMPLE_METHOD(mimeType)
-      .def("setType", &cl::setType)
-      .def("setMimeType", &cl::setMimeType);
+      .DEF_SIMPLE_METHOD(setMimeType)
+
+      .DEF_SIMPLE_METHOD(description)
+      .DEF_SIMPLE_METHOD(setDescription)
+
+      .DEF_SIMPLE_METHOD(width)
+      .DEF_SIMPLE_METHOD(setWidth)
+
+      .DEF_SIMPLE_METHOD(height)
+      .DEF_SIMPLE_METHOD(setHeight)
+
+      .DEF_SIMPLE_METHOD(colorDepth)
+      .DEF_SIMPLE_METHOD(setColorDepth)
+
+      .DEF_SIMPLE_METHOD(numColors)
+      .DEF_SIMPLE_METHOD(setNumColors)
       ;
 
   }
@@ -291,6 +319,13 @@ void exposeRest()
            (Ogg::XiphComment *(FLAC::File::*)(bool))
            &FLAC::File::xiphComment,
            xiphComment_overloads()[return_internal_reference<>()])
+      .DEF_SIMPLE_METHOD(pictureList)
+      .DEF_SIMPLE_METHOD(removePictures)
+      .DEF_SIMPLE_METHOD(removePicture)
+      // For existing picture objects from other FLAC files
+      .def("addPicture", flacAddPictureCopy)
+      // For freshly created Picture objects
+      .def("addPicture", flacAddPictureWithOwnership)
       ;
   }
 

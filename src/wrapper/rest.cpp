@@ -262,9 +262,10 @@ void exposeRest()
   {
     typedef TagLib::FLAC::Picture cl;
     class_<cl, std::auto_ptr<cl>, boost::noncopyable>
-      ("flac_Picture", init<const ByteVector &>())
+      ("flac_Picture", init<>())
       .DEF_SIMPLE_METHOD(type)
       .DEF_SIMPLE_METHOD(data)
+      .DEF_SIMPLE_METHOD(setData)
       .DEF_SIMPLE_METHOD(mimeType)
       .def("setType", &cl::setType)
       .def("setMimeType", &cl::setMimeType);

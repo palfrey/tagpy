@@ -3,6 +3,35 @@ import shutil
 from tempfile import TemporaryDirectory
 import tagpy
 import tagpy.id3v2
+from tagpy.ogg import flac
+
+
+def test_flac_picture():
+    fp = flac.Picture()
+
+    fp.setType(flac.PictureType.FrontCover)
+    assert fp.type() == flac.PictureType.FrontCover
+
+    fp.setData(bytes.fromhex("deadbeef"))
+    assert fp.data() == bytes.fromhex("deadbeef")
+
+    fp.setMimeType("image/jpeg")
+    assert fp.mimeType() == "image/jpeg"
+
+    fp.setDescription("test")
+    assert fp.description() == "test"
+
+    fp.setWidth(100)
+    assert fp.width() == 100
+
+    fp.setHeight(100)
+    assert fp.height() == 100
+
+    fp.setColorDepth(24)
+    assert fp.colorDepth() == 24
+
+    fp.setNumColors(1234)
+    assert fp.numColors() == 1234
 
 
 def test_cover_and_tags():

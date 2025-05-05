@@ -264,11 +264,28 @@ void exposeRest()
     class_<cl, std::auto_ptr<cl>, boost::noncopyable>
       ("flac_Picture", init<>())
       .DEF_SIMPLE_METHOD(type)
+      .DEF_SIMPLE_METHOD(setType)
+
       .DEF_SIMPLE_METHOD(data)
       .DEF_SIMPLE_METHOD(setData)
+
       .DEF_SIMPLE_METHOD(mimeType)
-      .DEF_SIMPLE_METHOD(setType)
-      .DEF_SIMPLE_METHOD(setMimeType);
+      .DEF_SIMPLE_METHOD(setMimeType)
+
+      .DEF_SIMPLE_METHOD(description)
+      .DEF_SIMPLE_METHOD(setDescription)
+
+      .DEF_SIMPLE_METHOD(width)
+      .DEF_SIMPLE_METHOD(setWidth)
+
+      .DEF_SIMPLE_METHOD(height)
+      .DEF_SIMPLE_METHOD(setHeight)
+
+      .DEF_SIMPLE_METHOD(colorDepth)
+      .DEF_SIMPLE_METHOD(setColorDepth)
+
+      .DEF_SIMPLE_METHOD(numColors)
+      .DEF_SIMPLE_METHOD(setNumColors)
       ;
 
   }

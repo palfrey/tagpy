@@ -1,7 +1,7 @@
 FROM alpine:3.17.0
 WORKDIR /work
 RUN apk add --no-cache taglib-dev python3-dev py3-pip boost1.80-python3 boost1.80-dev build-base
-RUN pip install wheel pytest
+RUN pip install wheel==0.45.1 pytest==8.4.2
 COPY . /work
 RUN python3 setup.py bdist_wheel
 RUN pip install dist/*

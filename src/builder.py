@@ -9,7 +9,7 @@ from argparse import ArgumentParser
 parser = ArgumentParser()
 parser.add_argument("--python-version", default="3.12")
 parser.add_argument("--taglib-version", default="1.13.1")
-parser.add_argument("--boost-version", default="1.87.0")
+parser.add_argument("--boost-version", default="1.88.0")
 parser.add_argument("--with-gdb", action="store_true")
 parser.add_argument("--build-wheel", action="store_true")
 

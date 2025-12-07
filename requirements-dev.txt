@@ -77,8 +77,6 @@ packaging==24.2
     #   dependency-groups
     #   pytest
     #   twine
-pip==25.3
-    # via -r requirements-dev.in
 platformdirs==4.3.6
     # via
     #   cibuildwheel
@@ -118,8 +116,6 @@ rich==13.9.4
     # via twine
 secretstorage==3.3.3
     # via keyring
-setuptools==80.9.0
-    # via -r requirements-dev.in
 tomli==2.2.1
     # via
     #   build
@@ -133,7 +129,7 @@ typing-extensions==4.12.2
     # via
     #   cibuildwheel
     #   rich
-urllib3==2.5.0
+urllib3==2.6.0
     # via
     #   requests
     #   twine

@@ -28,9 +28,8 @@ from setuptools import setup, Extension
 
 
 def main():
-
-    INCLUDE_DIRS = ""  # conf["TAGLIB_INC_DIR"] + conf["BOOST_INC_DIR"]
-    LIBRARY_DIRS = ""  # conf["TAGLIB_LIB_DIR"] + conf["BOOST_LIB_DIR"]
+    INCLUDE_DIRS = []  # conf["TAGLIB_INC_DIR"] + conf["BOOST_INC_DIR"]
+    LIBRARY_DIRS = []  # conf["TAGLIB_LIB_DIR"] + conf["BOOST_LIB_DIR"]
 
     boost_name = None
 
@@ -80,7 +79,7 @@ def main():
         license="MIT",
         url="https://github.com/palfrey/tagpy",
         packages=["tagpy", "tagpy.ogg"],
-        python_requires=">=3.9, <4",
+        python_requires=">=3.10, <4",
         install_requires=["packaging >= 14.0"],
         ext_modules=[
             Extension(
@@ -93,7 +92,7 @@ def main():
                 include_dirs=INCLUDE_DIRS,
                 library_dirs=LIBRARY_DIRS,
                 libraries=LIBRARIES,
-                extra_compile_args="",  # conf["CXXFLAGS"],
+                extra_compile_args=[],  # conf["CXXFLAGS"],
             ),
         ],
     )

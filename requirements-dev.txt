@@ -32,7 +32,7 @@ docutils==0.21.2
     # via readme-renderer
 exceptiongroup==1.2.2
     # via pytest
-filelock==3.16.1
+filelock==3.20.1
     # via
     #   cibuildwheel
     #   virtualenv

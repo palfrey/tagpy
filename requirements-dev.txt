@@ -129,7 +129,7 @@ typing-extensions==4.12.2
     # via
     #   cibuildwheel
     #   rich
-urllib3==2.6.0
+urllib3==2.6.3
     # via
     #   requests
     #   twine

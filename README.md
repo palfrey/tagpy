@@ -22,7 +22,7 @@ You can find examples in the test/ directory.
 Installing TagPy
 ================
 
-If you're lucky (Python 3.9-3.13 on x86 Linux currently), you can probably just run `pip install tagpy` which will use the precompiled wheels. If this fails due to compilation
+If you're lucky (Python 3.9-3.14 on x86 Linux currently), you can probably just run `pip install tagpy` which will use the precompiled wheels. If this fails due to compilation
 issues, you'll need to install some things first.
 
 * Debian: `apt-get install libboost-python-dev libtag1-dev`

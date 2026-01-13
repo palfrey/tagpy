@@ -125,15 +125,16 @@ tomli==2.2.1
     #   pytest
 twine==6.1.0
     # via -r requirements-dev.in
-typing-extensions==4.12.2
+typing-extensions==4.15.0
     # via
     #   cibuildwheel
     #   rich
+    #   virtualenv
 urllib3==2.6.3
     # via
     #   requests
     #   twine
-virtualenv==20.28.1
+virtualenv==20.36.1
     # via pre-commit
 zipp==3.21.0
     # via importlib-metadata

@@ -12,7 +12,7 @@ certifi==2024.12.14
     # via
     #   cibuildwheel
     #   requests
-cffi==1.17.1
+cffi==2.0.0
     # via cryptography
 cfgv==3.4.0
     # via pre-commit
@@ -22,7 +22,7 @@ cibuildwheel==2.23.1
     # via -r requirements-dev.in
 coverage[toml]==7.6.10
     # via pytest-cov
-cryptography==44.0.1
+cryptography==46.0.5
     # via secretstorage
 dependency-groups==1.3.0
     # via cibuildwheel
@@ -128,6 +128,7 @@ twine==6.1.0
 typing-extensions==4.15.0
     # via
     #   cibuildwheel
+    #   cryptography
     #   rich
     #   virtualenv
 urllib3==2.6.3

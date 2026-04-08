@@ -22,7 +22,7 @@ cibuildwheel==2.23.1
     # via -r requirements-dev.in
 coverage[toml]==7.6.10
     # via pytest-cov
-cryptography==46.0.6
+cryptography==46.0.7
     # via secretstorage
 dependency-groups==1.3.0
     # via cibuildwheel

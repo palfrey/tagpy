@@ -33,3 +33,17 @@ def test_resolver():
 
 def test_wav():
     tagpy.FileRef(str(pathlib.Path(__file__).parent.joinpath("Caldhu.wav")))
+
+
+def test_file_extensions():
+    assert sorted(tagpy.FileRef.defaultFileExtensions()) == [
+        "flac",
+        "m4a",
+        "mp3",
+        "mp4",
+        "mpc",
+        "oga",
+        "ogg",
+        "opus",
+        "wav",
+    ]

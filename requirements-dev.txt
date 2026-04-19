@@ -89,11 +89,12 @@ pycparser==2.22
     # via cffi
 pygments==2.19.1
     # via
+    #   pytest
     #   readme-renderer
     #   rich
 pyproject-hooks==1.2.0
     # via build
-pytest==8.3.5
+pytest==9.0.3
     # via
     #   -r requirements-dev.in
     #   pytest-cov

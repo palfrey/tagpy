@@ -6,6 +6,14 @@ manylinux2014:
 		quay.io/pypa/manylinux_2_34_x86_64 \
 		./build-manylinux.sh
 
+manylinux2014-each:
+	docker run \
+		--rm \
+		-v `pwd`:/src \
+		--workdir /src \
+		quay.io/pypa/manylinux_2_34_x86_64 \
+		./build-manylinux-each.sh $(VER)
+
 manylinux2014-sh:
 	docker run \
 		--rm \

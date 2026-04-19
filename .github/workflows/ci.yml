@@ -111,9 +111,14 @@ jobs:
     manylinux:
         runs-on: ubuntu-24.04
         name: Test Manylinux builds
+        strategy:
+            matrix:
+                python-version: ['10', '11', '12', '13', '14']
         steps:
             - uses: actions/checkout@v4
-            - run: make manylinux2014
+            - run: make manylinux2014-each
+              env:
+                  VER: ${{ matrix.python-version }}
 
     finish:
         needs: [test, integration, manylinux, cpp-23]

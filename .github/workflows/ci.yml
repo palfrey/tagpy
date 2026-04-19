@@ -28,6 +28,8 @@ jobs:
               run: |
                   make sync
                   sudo apt-get install -y --no-install-recommends lcov libutfcpp-dev
+                  wget https://launchpad.net/ubuntu/+archive/primary/+files/lcov_2.4-3_all.deb
+                  sudo dpkg -i lcov_2.4-3_all.deb
             - name: Run builder
               run: .venv/bin/python src/builder.py --python-version ${{ matrix.python-version }} --taglib-version ${{ matrix.taglib-version }}
             - name: Python Coveralls

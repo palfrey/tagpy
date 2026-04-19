@@ -59,7 +59,7 @@ class FileRef(object):
 
     @classmethod
     def defaultFileExtensions(cls):
-        return cls._getExtToModule.keys()
+        return cls._getExtToModule().keys()
 
     def isNull(self):
         return not self._file or not self._file.isValid()

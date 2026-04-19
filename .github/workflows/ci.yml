@@ -49,6 +49,7 @@ jobs:
                   path-to-lcov: cpp.info
                   parallel: true
                   flag-name: CPP-${{ matrix.python-version }}
+                  base-path: ${{ github.workspace }}
 
     cpp-23:
         runs-on: ubuntu-24.04

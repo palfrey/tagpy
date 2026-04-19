@@ -27,16 +27,13 @@ jobs:
             - name: Install dependencies
               run: |
                   make sync
-                  sudo apt-get install -y --no-install-recommends lcov libutfcpp-dev
-                  wget https://launchpad.net/ubuntu/+archive/primary/+files/lcov_2.4-3_all.deb
-                  sudo dpkg -i lcov_2.4-3_all.deb
+                  sudo apt-get install -y --no-install-recommends libutfcpp-dev
+                  uv pip install gcovr
             - name: Run builder
               run: .venv/bin/python src/builder.py --python-version ${{ matrix.python-version }} --taglib-version ${{ matrix.taglib-version }}
-            - name: LCOV
+            - name: gcovr
               run: |
-                  lcov --version
-                  lcov --directory build --output-file cpp.info --capture --exclude "/usr/include/*" --exclude "/opt/hostedtoolcache/*" --exclude "/home/runner/work/tagpy/tagpy/build/boost-*" --exclude "/home/runner/work/tagpy/tagpy/build/taglib-*"
-                  lcov --list cpp.info
+                  .venv/bin/gcovr build --use-gcov-files --lcov cpp.info --gcov-exclude "/usr/include/*" --gcov-exclude "/opt/hostedtoolcache/*" --gcov-exclude "/home/runner/work/tagpy/tagpy/build/boost-*" --gcov-exclude "/home/runner/work/tagpy/tagpy/build/taglib-*"
             - name: Python Coveralls
               uses: coverallsapp/github-action@master
               with:

@@ -33,7 +33,8 @@ jobs:
               run: .venv/bin/python src/builder.py --python-version ${{ matrix.python-version }} --taglib-version ${{ matrix.taglib-version }}
             - name: gcovr
               run: |
-                  .venv/bin/gcovr build --use-gcov-files --lcov cpp.info --gcov-exclude "/usr/include/*" --gcov-exclude "/opt/hostedtoolcache/*" --gcov-exclude "/home/runner/work/tagpy/tagpy/build/boost-*" --gcov-exclude "/home/runner/work/tagpy/tagpy/build/taglib-*"
+                  .venv/bin/gcovr --filter src/ --lcov cpp.info
+                  cat cpp.info
             - name: Python Coveralls
               uses: coverallsapp/github-action@master
               with:

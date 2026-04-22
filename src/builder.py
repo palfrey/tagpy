@@ -117,7 +117,9 @@ if not taglib_build_version_folder.exists():
 
 venv_folder = build_folder.joinpath(f"venv-{args.python_version}")
 if not venv_folder.exists():
-    subprocess.check_call(["uv", "venv", "--python", args.python_version, venv_folder])
+    subprocess.check_call(
+        ["uv", "venv", "--seed", "--python", args.python_version, venv_folder]
+    )
 
 venv_bin_folder = venv_folder.joinpath("bin")
 pip_path = venv_bin_folder.joinpath("pip3")

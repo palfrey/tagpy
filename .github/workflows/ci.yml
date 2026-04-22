@@ -27,9 +27,15 @@ jobs:
             - name: Install dependencies
               run: |
                   make sync
-                  sudo apt-get install -y --no-install-recommends lcov libutfcpp-dev
+                  sudo apt-get install -y --no-install-recommends libutfcpp-dev
+                  uv pip install gcovr
             - name: Run builder
               run: .venv/bin/python src/builder.py --python-version ${{ matrix.python-version }} --taglib-version ${{ matrix.taglib-version }}
+            - name: gcovr
+              run: |
+                  .venv/bin/gcovr --filter src/ --lcov cpp.info
+                  cat cpp.info | sed -r 's#${{ github.workspace }}/##' > cpp-relative-info
+                  cat cpp-relative-info
             - name: Python Coveralls
               uses: coverallsapp/github-action@master
               with:
@@ -37,19 +43,14 @@ jobs:
                   path-to-lcov: coverage.lcov
                   parallel: true
                   flag-name: Python-${{ matrix.python-version }}
-            - name: LCOV
-              run: |
-                  lcov --version
-                  # FIXME: ignore errors is due to https://github.com/linux-test-project/lcov/issues/341
-                  lcov --directory build --output-file cpp.info --capture --exclude "/usr/include/*" --exclude "/opt/hostedtoolcache/*" --exclude "/home/runner/work/tagpy/tagpy/build/boost-*" --exclude "/home/runner/work/tagpy/tagpy/build/taglib-*" --ignore-errors mismatch
-                  lcov --list cpp.info
             - name: C++ Coveralls
               uses: coverallsapp/github-action@master
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
-                  path-to-lcov: cpp.info
+                  path-to-lcov: cpp-relative-info
                   parallel: true
                   flag-name: CPP-${{ matrix.python-version }}
+                  debug: true
 
     cpp-23:
         runs-on: ubuntu-24.04

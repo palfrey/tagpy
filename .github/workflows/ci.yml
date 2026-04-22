@@ -34,7 +34,7 @@ jobs:
             - name: gcovr
               run: |
                   .venv/bin/gcovr --filter src/ --lcov cpp.info
-                  cat cpp.info | sed -r 's#${{ github.workspace }}##' > cpp-relative-info
+                  cat cpp.info | sed -r 's#${{ github.workspace }}/##' > cpp-relative-info
                   cat cpp-relative-info
             - name: Python Coveralls
               uses: coverallsapp/github-action@master

@@ -36,7 +36,7 @@ def _genreList():
 _GenreList = _genreList()
 _GenreMap = dict([(v, k) for k, v in enumerate(_GenreList)])
 
-genre = _tagpy.id3v1_genre
+Genre = _tagpy.id3v1_genre
 
 
 def genreIndex(genre):

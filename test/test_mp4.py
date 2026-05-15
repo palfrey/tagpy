@@ -2,6 +2,7 @@ from pathlib import Path
 import shutil
 from tempfile import TemporaryDirectory
 import tagpy
+import tagpy.mp4
 import tagpy.id3v2
 
 

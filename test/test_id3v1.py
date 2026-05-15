@@ -18,7 +18,9 @@ def test_can_tag():
 
 
 def test_has_genres():
-    assert sorted(tagpy.id3v1.genreList()) == [
+    # There's a core set, and then there's the ones that some platforms have and others don't
+    listedGenres = set(tagpy.id3v1.genreList())
+    minimumGenres = {
         "A Cappella",
         "Abstract",
         "Acid",
@@ -32,12 +34,10 @@ def test_has_genres():
         "Art Rock",
         "Audio Theatre",
         "Audiobook",
-        "Avant-garde",
         "Ballad",
         "Baroque",
         "Bass",
         "Beat",
-        "Bebop",
         "Bhangra",
         "Big Band",
         "Big Beat",
@@ -46,7 +46,6 @@ def test_has_genres():
         "Blues",
         "Booty Bass",
         "Breakbeat",
-        "Britpop",
         "Cabaret",
         "Celtic",
         "Chamber Music",
@@ -66,7 +65,6 @@ def test_has_genres():
         "Crossover",
         "Cult",
         "Dance",
-        "Dancehall",
         "Darkwave",
         "Death Metal",
         "Disco",
@@ -89,13 +87,10 @@ def test_has_genres():
         "Euro-Techno",
         "Eurodance",
         "Experimental",
-        "Fast Fusion",
         "Folk",
-        "Folk Rock",
         "Folklore",
         "Freestyle",
         "Funk",
-        "Fusion",
         "G-Funk",
         "Game",
         "Gangsta",
@@ -108,7 +103,6 @@ def test_has_genres():
         "Gothic Rock",
         "Grunge",
         "Hard Rock",
-        "Hardcore Techno",
         "Heavy Metal",
         "Hip-Hop",
         "House",
@@ -124,7 +118,6 @@ def test_has_genres():
         "Instrumental Rock",
         "Jam Band",
         "Jazz",
-        "Jazz-Funk",
         "Jpop",
         "Jungle",
         "Krautrock",
@@ -210,8 +203,8 @@ def test_has_genres():
         "Trop Rock",
         "Vocal",
         "World Music",
-        "Worldbeat",
-    ]
+    }
+    assert listedGenres.issuperset(minimumGenres)
 
 
 def test_genre_index():

@@ -30,7 +30,7 @@ requirements-dev.txt: requirements-dev.in .tool-versions
 	uv venv
 
 sync: requirements-dev.txt .venv/bin/python
-	uv pip sync requirements-dev.txt
+	uv pip sync --strict requirements-dev.txt
 
 testpypi: sync
 	.venv/bin/twine upload -r testpypi wheelhouse/*

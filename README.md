@@ -32,7 +32,7 @@ Other setups are not currently supported, but patches with CI checking for other
 
 TagPy works with
 
-- TagLib >=1.9 (all versions up to 2.0.2 currently tested)
+- TagLib >=1.9 (all versions up to 2.3.2 currently tested)
 - Boost.Python 1.74
 - gcc 10.2.1
 

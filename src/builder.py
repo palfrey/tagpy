@@ -147,9 +147,7 @@ if "LD_LIBRARY_PATH" in my_env:
 else:
     my_env["LD_LIBRARY_PATH"] = extra_library_paths
 
-subprocess.check_call(
-    ["uv", "pip", "install", "-r", "requirements-dev.txt"], cwd=root_folder, env=my_env
-)
+subprocess.check_call(["uv", "sync"], cwd=root_folder, env=my_env)
 subprocess.check_call([pip_path, "install", "."], cwd=root_folder, env=my_env)
 command: list[str] = [
     venv_bin_folder.joinpath("python").as_posix(),

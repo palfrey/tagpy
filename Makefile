@@ -23,14 +23,11 @@ manylinux2014-sh:
 		quay.io/pypa/manylinux_2_34_x86_64 \
 		bash
 
-requirements-dev.txt: requirements-dev.in .tool-versions
-	uv pip compile --python 3.10 --no-strip-extras requirements-dev.in -o requirements-dev.txt
-
 .venv/bin/python:
 	uv venv
 
-sync: requirements-dev.txt .venv/bin/python
-	uv pip sync --strict requirements-dev.txt
+sync: pyproject.toml .venv/bin/python
+	uv sync
 
 testpypi: sync
 	.venv/bin/twine upload -r testpypi wheelhouse/*

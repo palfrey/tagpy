@@ -156,10 +156,9 @@ if "LD_LIBRARY_PATH" in my_env:
 else:
     my_env["LD_LIBRARY_PATH"] = extra_library_paths
 
-subprocess.check_call(["uv", "sync"], cwd=root_folder, env=my_env)
 subprocess.check_call([pip_path, "install", "."], cwd=root_folder, env=my_env)
 subprocess.check_call(
-    [pip_path, "install", "pytest==9.0.3", "pytest-cov==6.0.0"],
+    [pip_path, "install", "pytest==9.0.3", "pytest-cov==6.0.0", "build==1.6.1"],
     cwd=root_folder,
     env=my_env,
 )

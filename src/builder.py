@@ -118,7 +118,16 @@ if not taglib_build_version_folder.exists():
 venv_folder = build_folder.joinpath(f"venv-{args.python_version}")
 if not venv_folder.exists():
     subprocess.check_call(
-        ["uv", "venv", "--seed", "--python", args.python_version, venv_folder]
+        [
+            "uv",
+            "venv",
+            "--seed",
+            "--python",
+            args.python_version,
+            "--python-preference",
+            "only-managed",
+            venv_folder,
+        ]
     )
 
 venv_bin_folder = venv_folder.joinpath("bin")
@@ -147,10 +156,12 @@ if "LD_LIBRARY_PATH" in my_env:
 else:
     my_env["LD_LIBRARY_PATH"] = extra_library_paths
 
-subprocess.check_call(
-    ["uv", "pip", "install", "-r", "requirements-dev.txt"], cwd=root_folder, env=my_env
-)
 subprocess.check_call([pip_path, "install", "."], cwd=root_folder, env=my_env)
+subprocess.check_call(
+    [pip_path, "install", "pytest==9.0.3", "pytest-cov==6.0.0", "build==1.6.1"],
+    cwd=root_folder,
+    env=my_env,
+)
 command: list[str] = [
     venv_bin_folder.joinpath("python").as_posix(),
     "-m",

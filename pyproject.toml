@@ -11,3 +11,20 @@ build-backend = "setuptools.build_meta"
 
 [tool.coverage.run]
 relative_files = true
+
+[dependency-groups]
+dev = [
+  "pytest==9.0.3",
+  "pytest-cov==6.0.0",
+  "gcovr==8.6",
+  "twine==6.1.0",
+  "build==1.2.2.post1",
+  "pre-commit==4.2.0",
+  "cibuildwheel==2.23.1",
+  "setuptools==84.0.0",
+  "pip==26.2",
+]
+
+[tool.uv]
+# So we don't have to be able to build things in the default env
+package = false

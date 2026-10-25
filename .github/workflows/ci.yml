@@ -26,8 +26,8 @@ jobs:
             - uses: asdf-vm/actions/install@v4
             - name: Install dependencies
               run: |
+                  sudo apt-get install -y --no-install-recommends libutfcpp-dev libxml2-dev libxslt1-dev
                   make sync
-                  sudo apt-get install -y --no-install-recommends libutfcpp-dev
             - name: Run builder
               run: .venv/bin/python src/builder.py --python-version ${{ matrix.python-version }} --taglib-version ${{ matrix.taglib-version }}
             - name: gcovr

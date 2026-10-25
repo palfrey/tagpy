@@ -7,7 +7,7 @@ norecursedirs = "boost build"
 
 [build-system]
 requires = ["setuptools"]
-build-backend = "setuptools*"
+build-backend = "setup tools.build_meta"
 
 [tool.coverage.run]
 relative_files = true
